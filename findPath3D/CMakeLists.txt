@@ -19,7 +19,9 @@ include (${QT_USE_FILE})
 
 set( GLRENDERER 
         ../glExt/glExtInit.cpp
-        ../glExt/glExtInit.h )
+        ../glExt/glExtInit.h 
+		../glExt/gl_helpers.cpp
+		../glExt/gl_helpers.h)
 
 set( GLRENDERER_MOC 
         ./src/gl_renderer/glmapview.cpp

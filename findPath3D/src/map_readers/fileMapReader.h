@@ -27,11 +27,11 @@ void readMap( const wchar_t* filename, HeightMap &height_map );
 void readMap( const char* filename, HeightMap &height_map );
 #endif
 
-class custom_exception : std::exception
+class custom_exception : public std::exception
 {
 public:
-  custom_exception( const std::string& message );
-  virtual const char* what() const noexcept override;
+	custom_exception(const std::string& message);
+	virtual const char* what() const noexcept override;
 protected:
-  std::string m_message;
+	std::string m_message;
 };

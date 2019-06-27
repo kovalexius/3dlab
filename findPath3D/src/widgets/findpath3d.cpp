@@ -57,27 +57,40 @@ void findPath3D::onFindPath()
 
 void findPath3D::onMapCreate()
 {
-  QString str = ui.lineEdit->text();
-  float h = str.toFloat();
+	try
+	{
+		QString str = ui.lineEdit->text();
+		float h = str.toFloat();
 
-  HeightMap hmap;
-#ifdef _WIN32
-  std::wstring filePath( (wchar_t*)m_filePath.unicode());
-  readMap(filePath.c_str(), hmap);
-#else
-  std::string filePath( (const char*)m_filePath.toLocal8Bit().data() );
-  readMap(filePath.c_str(), hmap);
-#endif
+		HeightMap hmap;
+ 
+	#ifdef _WIN32
+		std::wstring filePath((wchar_t*)m_filePath.unicode());
+		readMap(filePath.c_str(), hmap);
+	#else
+		std::string filePath( (const char*)m_filePath.toLocal8Bit().data() );
+		readMap(filePath.c_str(), hmap);
+	#endif
   
-  
-  scn = new Scene( h, hmap );
+		scn = new Scene( h, hmap );
+		
+		vw->RemoveAll();
 
-  for( auto it = scn->objects.begin(); it != scn->objects.end(); it++ )
-    vw->AddObject( *it );
-  for( auto it = scn->obstacles.begin(); it != scn->obstacles.end(); it++ )
-    vw->AddObstacle( *it );
-
-  vw->AddWaterObject( scn->waterMesh );
-  vw->AddWaterObstacle( scn->waterObstacle );
-  vw->StartRender();
+		for( auto it = scn->objects.begin(); it != scn->objects.end(); it++ )
+		  vw->AddObject( *it );
+		for( auto it = scn->obstacles.begin(); it != scn->obstacles.end(); it++ )
+		  vw->AddObstacle( *it );
+		
+		vw->AddWaterObject( scn->waterMesh );
+		vw->AddWaterObstacle( scn->waterObstacle );
+		vw->StartRender();
+	}
+	catch (std::exception &_e)
+	{
+		std::cout << "caught exception: " << _e.what() << std::endl;
+	}
+	catch (...)
+	{
+		std::cout << "Unknown exception" << std::endl;
+	}
 }

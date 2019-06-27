@@ -40,12 +40,19 @@ int main(int argc, char *argv[])
     res = twoDirectDistanceFast( A, B, C, D );
     */
     
+
+	/*
     Vector3D point_plane(0,0,0);
     Vector3D normal_plane(1,0,0);
     Vector3D dst;
     Vector3D A(6,0,0);
     Vector3D B(1,0,0);
     std::cout << " CrossPointLineAndPlane() = " << CrossPointLineAndPlane( &dst, point_plane, normal_plane, A, B ) << std::endl;
+	*/
+
+	SetConsoleCP(1251);
+	SetConsoleOutputCP(1251);
+	setlocale(LC_ALL, "Rus");
 
     QApplication a(argc, argv);
     findPath3D w;

@@ -11,6 +11,7 @@
 #include "../kfp_algo/MeshObject.h"
 
 #include "glExtInit.h"
+#include "gl_helpers.h"
 
 struct CheckPoint
 {
@@ -50,6 +51,7 @@ public:
 	void RemoveObject( const std::shared_ptr<MeshObject> & ob );
 	void AddWaterObject( const std::shared_ptr<MeshObject> &wr );
 	void AddWaterObstacle( const std::shared_ptr<MeshObstacle> &wr );
+	void RemoveAll();
 	void initWaterVBO();
 	void initObjectsVBO();
 	void StartRender();
@@ -62,6 +64,8 @@ private:
 	GLuint waterUvVBO;
 	GLuint waterShaderProgram;
 	GLint  timeLocation;
+	GLint	m_waterLightIntensityLocation;
+	GLint	m_landLightIntensityLocation;
 	clock_t	m_begTime;
 	GLuint objTriVBO;
 	GLuint objNormVBO;
@@ -72,15 +76,15 @@ private:
 	GLsizei countObjects;
 	GLsizei countObjUV;
 
-	GLfloat	znear;	// Ближняя и дальняя
-	GLfloat zfar;  // плоскости отсечения
-	GLclampf ref;			// Эталон непрозрачности альфа значения, ref=1 - абсолютно непрозрачный
-	Vector3D up;	// Текущий вектор верха камеры
-	Vector3D pos;	// Текущая позиция камеры
-	Vector3D shift; // Смещение камеры в боки
-	Vector3D pCamera;		//Где камера
-	Vector3D tCamera;		//Куда смотрит
-	Vector3D upCamera;		//Куда смотрит верх камеры
+	GLfloat		m_znear;	// Ближняя и дальняя
+	GLfloat		m_zfar;  // плоскости отсечения
+	GLclampf	m_ref;			// Эталон непрозрачности альфа значения, ref=1 - абсолютно непрозрачный
+	Vector3D	m_up;	// Текущий вектор верха камеры
+	Vector3D	m_pos;	// Текущая позиция камеры
+	Vector3D	m_shift; // Смещение камеры в боки
+	Vector3D	m_pCamera;		//Где камера
+	Vector3D	m_tCamera;		//Куда смотрит
+	Vector3D	m_upCamera;		//Куда смотрит верх камеры
 	float	R;			//	Дистанция до центра обзора
 	float	xRot;	//	Угол поворота в плоскости XZ в радианах
 	float	yRot;	//	Угол поворота в плоскости YZ в радианах
