@@ -1,4 +1,4 @@
-#ifndef FILEDATA_H
+﻿#ifndef FILEDATA_H
 #define FILEDATA_H
 
 #include <string>

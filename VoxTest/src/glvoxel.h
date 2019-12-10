@@ -1,4 +1,4 @@
-#ifndef GLVOXEL_H
+п»ї#ifndef GLVOXEL_H
 #define GLVOXEL_H
 
 #include <QGLWidget>
@@ -31,22 +31,22 @@ public slots:
 
 private:
     ShapeData shape_data;
-    float	R;			//	Дистанция до центра обзора
-    float	xRot;	//	Угол поворота в плоскости XZ в радианах
-    float	yRot;	//	Угол поворота в плоскости YZ в радианах
-    float	xMov;	// Временное смещение
-    float	yMov;	// визуального обзора (Нажатие Alt)
-    Vector3D pCamera;		//Где камера
-    Vector3D tCamera;		//Куда смотрит
-    Vector3D upCamera;		//Куда смотрит верх камеры
-    Vector3D up;	// Текущий вектор верха камеры
-    Vector3D position;	// Текущая позиция камеры
-    Vector3D shift; // Смещение камеры в боки
+    float	R;			//	Р”РёСЃС‚Р°РЅС†РёСЏ РґРѕ С†РµРЅС‚СЂР° РѕР±Р·РѕСЂР°
+    float	xRot;	//	РЈРіРѕР» РїРѕРІРѕСЂРѕС‚Р° РІ РїР»РѕСЃРєРѕСЃС‚Рё XZ РІ СЂР°РґРёР°РЅР°С…
+    float	yRot;	//	РЈРіРѕР» РїРѕРІРѕСЂРѕС‚Р° РІ РїР»РѕСЃРєРѕСЃС‚Рё YZ РІ СЂР°РґРёР°РЅР°С…
+    float	xMov;	// Р’СЂРµРјРµРЅРЅРѕРµ СЃРјРµС‰РµРЅРёРµ
+    float	yMov;	// РІРёР·СѓР°Р»СЊРЅРѕРіРѕ РѕР±Р·РѕСЂР° (РќР°Р¶Р°С‚РёРµ Alt)
+    Vector3D pCamera;		//Р“РґРµ РєР°РјРµСЂР°
+    Vector3D tCamera;		//РљСѓРґР° СЃРјРѕС‚СЂРёС‚
+    Vector3D upCamera;		//РљСѓРґР° СЃРјРѕС‚СЂРёС‚ РІРµСЂС… РєР°РјРµСЂС‹
+    Vector3D up;	// РўРµРєСѓС‰РёР№ РІРµРєС‚РѕСЂ РІРµСЂС…Р° РєР°РјРµСЂС‹
+    Vector3D position;	// РўРµРєСѓС‰Р°СЏ РїРѕР·РёС†РёСЏ РєР°РјРµСЂС‹
+    Vector3D shift; // РЎРјРµС‰РµРЅРёРµ РєР°РјРµСЂС‹ РІ Р±РѕРєРё
     QPoint mPos;
     void GetXYZ( );
     void GetDXYZ( );
     void calculateCamera( );
-    virtual void mouseMoveEvent(QMouseEvent *event) override;       // Если двинули мышкой
+    virtual void mouseMoveEvent(QMouseEvent *event) override;       // Р•СЃР»Рё РґРІРёРЅСѓР»Рё РјС‹С€РєРѕР№
     virtual void wheelEvent(QWheelEvent *e) override;
     virtual void keyReleaseEvent(QKeyEvent * event) override;
 };

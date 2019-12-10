@@ -1,4 +1,4 @@
-#ifndef OCTREEDATA_H
+﻿#ifndef OCTREEDATA_H
 #define OCTREEDATA_H
 
 #include <stdint.h>

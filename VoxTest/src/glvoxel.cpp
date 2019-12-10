@@ -1,4 +1,4 @@
-#include <string>
+ï»¿#include <string>
 #include <iostream>
 #include <cstdlib>
 //#include <conio.h>
@@ -16,7 +16,7 @@ void checkOpenGLerror()
         std::cout << "OpenGl error! - " << gluErrorString(errCode) << std::endl;
 }
 
-//! Ôóíêöèÿ ïå÷àòè ëîãà øåéäåðà
+//! Ð¤ÑƒÐ½ÐºÑ†Ð¸Ñ Ð¿ÐµÑ‡Ð°Ñ‚Ð¸ Ð»Ð¾Ð³Ð° ÑˆÐµÐ¹Ð´ÐµÑ€Ð°
 void shaderLog(unsigned int shader)
 {
     int   infologLen = 0;
@@ -38,7 +38,7 @@ void shaderLog(unsigned int shader)
     }
 }
 
-//! Ôóíêöèÿ ïå÷àòè ëîãà øåéäåðà
+//! Ð¤ÑƒÐ½ÐºÑ†Ð¸Ñ Ð¿ÐµÑ‡Ð°Ñ‚Ð¸ Ð»Ð¾Ð³Ð° ÑˆÐµÐ¹Ð´ÐµÑ€Ð°
 void programLog(unsigned int prog)
 {
     int   infologLen = 0;
@@ -89,9 +89,9 @@ void GLVoxel::initializeGL()
 
 void GLVoxel::StartRender()
 {
-    makeCurrent();                      // ×òîáû glNewList ðàáîòàë
-    setFocusPolicy(Qt::StrongFocus);    // Óñòàíîâêà ïîëèòèêè ôîêóñèðîâêè íà âèäæåò
-    setMouseTracking(true);             // Âêëþ÷åíèå ðåæèìà mouse òðåêèíãà ïðè êîòîðîì âèäæåò ïîëó÷àåò ñèãíàë äâèæåíèÿ ìûøêè äàæå êîãäà íè îäíà êíîïêà ìûøêè íå íàæàòà
+    makeCurrent();                      // Ð§Ñ‚Ð¾Ð±Ñ‹ glNewList Ñ€Ð°Ð±Ð¾Ñ‚Ð°Ð»
+    setFocusPolicy(Qt::StrongFocus);    // Ð£ÑÑ‚Ð°Ð½Ð¾Ð²ÐºÐ° Ð¿Ð¾Ð»Ð¸Ñ‚Ð¸ÐºÐ¸ Ñ„Ð¾ÐºÑƒÑÐ¸Ñ€Ð¾Ð²ÐºÐ¸ Ð½Ð° Ð²Ð¸Ð´Ð¶ÐµÑ‚
+    setMouseTracking(true);             // Ð’ÐºÐ»ÑŽÑ‡ÐµÐ½Ð¸Ðµ Ñ€ÐµÐ¶Ð¸Ð¼Ð° mouse Ñ‚Ñ€ÐµÐºÐ¸Ð½Ð³Ð° Ð¿Ñ€Ð¸ ÐºÐ¾Ñ‚Ð¾Ñ€Ð¾Ð¼ Ð²Ð¸Ð´Ð¶ÐµÑ‚ Ð¿Ð¾Ð»ÑƒÑ‡Ð°ÐµÑ‚ ÑÐ¸Ð³Ð½Ð°Ð» Ð´Ð²Ð¸Ð¶ÐµÐ½Ð¸Ñ Ð¼Ñ‹ÑˆÐºÐ¸ Ð´Ð°Ð¶Ðµ ÐºÐ¾Ð³Ð´Ð° Ð½Ð¸ Ð¾Ð´Ð½Ð° ÐºÐ½Ð¾Ð¿ÐºÐ° Ð¼Ñ‹ÑˆÐºÐ¸ Ð½Ðµ Ð½Ð°Ð¶Ð°Ñ‚Ð°
 
 #ifdef OGL_EXT
     Init_ShaderObjects();
@@ -145,7 +145,7 @@ void GLVoxel::initShader()
     glCompileShader(fShader);
     shaderLog(fShader);
 
-    // ! Ñîçäàåì ïðîãðàììó è ïðèêðåïëÿåì øåéäåðû ê íåé
+    // ! Ð¡Ð¾Ð·Ð´Ð°ÐµÐ¼ Ð¿Ñ€Ð¾Ð³Ñ€Ð°Ð¼Ð¼Ñƒ Ð¸ Ð¿Ñ€Ð¸ÐºÑ€ÐµÐ¿Ð»ÑÐµÐ¼ ÑˆÐµÐ¹Ð´ÐµÑ€Ñ‹ Ðº Ð½ÐµÐ¹
     voxProgram = glCreateProgram();
     glAttachShader(voxProgram, vShader);
     glAttachShader(voxProgram, fShader);
@@ -153,11 +153,11 @@ void GLVoxel::initShader()
     glLinkProgram(voxProgram);
 
     programLog(voxProgram);
-    // ! Ïðîâåðÿåì ñòàòóñ ñáîðêè
+    // ! ÐŸÑ€Ð¾Ð²ÐµÑ€ÑÐµÐ¼ ÑÑ‚Ð°Ñ‚ÑƒÑ ÑÐ±Ð¾Ñ€ÐºÐ¸
     checkOpenGLerror();
 }
 
-// ! Îñâîáîæäåíèå øåéäåðîâ
+// ! ÐžÑÐ²Ð¾Ð±Ð¾Ð¶Ð´ÐµÐ½Ð¸Ðµ ÑˆÐµÐ¹Ð´ÐµÑ€Ð¾Ð²
 void GLVoxel::freeShader()
 {
     glUseProgram(0);
@@ -181,12 +181,12 @@ void GLVoxel::renderFrame()
     
     ///*
     glMatrixMode(GL_PROJECTION);                    //
-    glLoadIdentity();                               //	Óñòàíîâêà ïðîèçâîëüíîé ïåðñïåêòèâíîé
-    glFrustum(-1.1, 1.1, -1.0, 1.0, 0.5, 20);	//	ïðîåêöèè
+    glLoadIdentity();                               //	Ð£ÑÑ‚Ð°Ð½Ð¾Ð²ÐºÐ° Ð¿Ñ€Ð¾Ð¸Ð·Ð²Ð¾Ð»ÑŒÐ½Ð¾Ð¹ Ð¿ÐµÑ€ÑÐ¿ÐµÐºÑ‚Ð¸Ð²Ð½Ð¾Ð¹
+    glFrustum(-1.1, 1.1, -1.0, 1.0, 0.5, 20);	//	Ð¿Ñ€Ð¾ÐµÐºÑ†Ð¸Ð¸
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
     calculateCamera();
-    gluLookAt(pCamera.x, pCamera.y, pCamera.z, tCamera.x, tCamera.y, tCamera.z, upCamera.x, upCamera.y, upCamera.z);	// Óñòàíîâêà êàìåðû
+    gluLookAt(pCamera.x, pCamera.y, pCamera.z, tCamera.x, tCamera.y, tCamera.z, upCamera.x, upCamera.y, upCamera.z);	// Ð£ÑÑ‚Ð°Ð½Ð¾Ð²ÐºÐ° ÐºÐ°Ð¼ÐµÑ€Ñ‹
     glPointSize(2.5);
     uint64_t vox_number = shape_data.getVoxNumber();
     glBegin(GL_POINTS);

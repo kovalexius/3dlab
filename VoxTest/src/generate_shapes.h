@@ -1,4 +1,4 @@
-#ifndef GENERATE_SHAPES_H
+﻿#ifndef GENERATE_SHAPES_H
 #define GENERATE_SHAPES_H
 
 #include <stdint.h>
