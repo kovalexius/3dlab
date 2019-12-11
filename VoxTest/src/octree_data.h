@@ -33,13 +33,13 @@ public:
     };
     
 public:
-    static int getMaxDepthOctreeByData( const ShapeData &data );
+    static int getMaxDepthOctreeByData(const ShapeData& _data);
     
-    static int getLenFieldAddress( int depth );
+    static int getLenFieldAddress(int _depth);
 
-    static int getLenFieldAddress( const ShapeData& data );
+    static int getLenFieldAddress(const ShapeData& _data);
     
-    static void createOctree( const ShapeData &data, int byte_len );
+    static void createOctree(const ShapeData& _data, int _byte_len);
 };
 
 struct VoxDataLevelBase
@@ -80,8 +80,8 @@ class Octree
     };
     
 public:
-    Octree( float width, float height, float depth, uint32_t h );
-    void addVoxel( const Vector3D &point, const uint32_t color );
+    Octree(float _width, float _height, float _depth, uint32_t _h);
+    void addVoxel(const Vector3D& _point, const uint32_t _color);
     void createVoxDataArray();
     
 private:

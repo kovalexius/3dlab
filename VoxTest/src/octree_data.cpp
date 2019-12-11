@@ -5,9 +5,9 @@
 
 using namespace VXC;
 
-int OctreeUtils::getMaxDepthOctreeByData(const ShapeData& data)
+int OctreeUtils::getMaxDepthOctreeByData(const ShapeData& _data)
 {
-    int num_vox = data.getVoxNumber();
+    int num_vox = _data.getVoxNumber();
     
     int depth = 1;
     if ( num_vox % 8 )
@@ -30,9 +30,9 @@ int OctreeUtils::getLenFieldAddress(int depth)
     return result;
 }
 
-int OctreeUtils::getLenFieldAddress(const ShapeData& data)
+int OctreeUtils::getLenFieldAddress(const ShapeData& _data)
 {
-    uint64_t num_vox = data.getVoxNumber();
+    uint64_t num_vox = _data.getVoxNumber();
     int num_bits = 0;
     if (num_vox % 2)
         num_bits++;
@@ -47,16 +47,16 @@ int OctreeUtils::getLenFieldAddress(const ShapeData& data)
     return result;
 }
 
-void OctreeUtils::createOctree( const ShapeData &data, int byte_len )
+void OctreeUtils::createOctree(const ShapeData& _data, int _byte_len)
 {
-    const Vector3D &origin = data.getOrigin();
-    uint64_t num = data.getVoxNumber();
-    float vox_metre = data.getVoxMetre();
-    float width = data.getWidth();
-    float height = data.getHeight();
-    float depth = data.getDepth();
+    const Vector3D &origin = _data.getOrigin();
+    uint64_t num = _data.getVoxNumber();
+    float vox_metre = _data.getVoxMetre();
+    float width = _data.getWidth();
+    float height = _data.getHeight();
+    float depth = _data.getDepth();
     
-    int h = getMaxDepthOctreeByData( data );
+    int h = getMaxDepthOctreeByData(_data);
     
     std::cout << "orig.x=" << origin.x << " orig.y=" << origin.y << " orig.z=" << origin.z << " num of voxels=" << num <<
                 " vox_metre=" << vox_metre << " width=" << width << " height=" << height << " depth=" << depth << std::endl;
@@ -65,7 +65,7 @@ void OctreeUtils::createOctree( const ShapeData &data, int byte_len )
     
 }
 
-Octree::Octree( float width, float height, float depth, uint32_t h )
+Octree::Octree(float width, float height, float depth, uint32_t h)
 {
     x_middle = width / 2;
     y_middle = height / 2;

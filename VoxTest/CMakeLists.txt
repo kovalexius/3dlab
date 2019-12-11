@@ -32,6 +32,8 @@ add_executable( voxtest
                 ./src/main.cpp
                 ${CMAKE_SOURCE_DIR}/glExt/glExtInit.cpp
                 ${CMAKE_SOURCE_DIR}/glExt/glExtInit.h
+                ${CMAKE_SOURCE_DIR}/glExt/gl_helpers.cpp
+                ${CMAKE_SOURCE_DIR}/glExt/gl_helpers.h
                 ${CMAKE_SOURCE_DIR}/geoMath/Geometry.cpp
                 ${CMAKE_SOURCE_DIR}/geoMath/Geometry.h
                 ./src/generate_shapes.cpp

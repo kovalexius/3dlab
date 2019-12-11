@@ -9,7 +9,7 @@ ShapeData GenShapes::genBox(const float vox_size,
     const uint32_t width,
     const uint32_t height,
     const uint32_t depth,
-    uint32_t &size_in_bytes)
+    uint32_t& size_in_bytes)
 {
     const int num_voxels = 2 * ( width*height + width*(depth-2) + (height-2)*(depth-2) );
     size_in_bytes = num_voxels * size_of_voxel + size_of_head; // Шапка + Воксели
@@ -22,6 +22,7 @@ ShapeData GenShapes::genBox(const float vox_size,
     
     // Шапка: Размер вокселя + Координаты объекта + габариты
     *((float*)ptr) = vox_size;
+    
     ptr += sizeof(float);
     Vector3D coord(0.0, 0.0, 0.0);
     *((float*)ptr) = coord.x;
@@ -29,8 +30,8 @@ ShapeData GenShapes::genBox(const float vox_size,
     *((float*)ptr) = coord.y;
     ptr += sizeof(float);
     *((float*)ptr) = coord.z;
+
     ptr += sizeof(float);
-    
     *((float*)ptr) = width * vox_size;
     ptr += sizeof(float);
     *((float*)ptr) = height * vox_size;
@@ -44,7 +45,7 @@ ShapeData GenShapes::genBox(const float vox_size,
     {
         for (uint32_t y = 0; y < height; y++)
         {
-            Vector3D vec0( x*vox_size, y*vox_size, 0.0f );
+            Vector3D vec0(x*vox_size, y*vox_size, 0.0f);
             Vector3D vec_back( x*vox_size, y*vox_size, (depth-1)*vox_size );
             uint32_t color0 = 0x401010ff;
             uint32_t color_back = 0x104040ff;

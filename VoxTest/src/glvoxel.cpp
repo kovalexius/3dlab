@@ -1,42 +1,14 @@
 ﻿#include <string>
 #include <iostream>
 #include <cstdlib>
-//#include <conio.h>
 
 #include <QResizeEvent>
 
 #include "file_data.h"
 #include "glvoxel.h"
 #include "octree_data.h"
+#include "../../glExt/gl_helpers.h"
 
-void checkOpenGLerror()
-{
-    GLenum errCode;
-    if ((errCode = glGetError()) != GL_NO_ERROR)
-        std::cout << "OpenGl error! - " << gluErrorString(errCode) << std::endl;
-}
-
-//! Функция печати лога шейдера
-void shaderLog(unsigned int shader)
-{
-    int   infologLen = 0;
-    int   charsWritten = 0;
-    char *infoLog;
-
-    glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &infologLen);
-
-    if (infologLen > 1)
-    {
-        infoLog = new char[infologLen];
-        if (infoLog == NULL)
-        {
-            std::cout << "ERROR: Could not allocate InfoLog buffer\n" << std::endl;
-        }
-        glGetShaderInfoLog(shader, infologLen, &charsWritten, infoLog);
-        std::cout << "InfoLog: " << infoLog << std::endl;
-        delete[] infoLog;
-    }
-}
 
 //! Функция печати лога шейдера
 void programLog(unsigned int prog)
@@ -103,9 +75,8 @@ void GLVoxel::StartRender()
     timerFreqFps->start();
     
     ///*
-    int size;
-    char *buf = read_data_file( "box.dat", size );
-    shape_data = std::move( ShapeData( size, buf ) );
+    auto buf = read_data_file("box.dat");
+    shape_data = std::move(ShapeData(buf));
     const Vector3D &origin = shape_data.getOrigin();
     uint64_t num = shape_data.getVoxNumber();
     float vox_metre = shape_data.getVoxMetre();
