@@ -1,4 +1,4 @@
-#ifndef GLEXTINIT_H
+﻿#ifndef GLEXTINIT_H
 #define GLEXTINIT_H
 
 #ifdef _WIN32

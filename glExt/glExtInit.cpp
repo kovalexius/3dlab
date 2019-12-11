@@ -1,11 +1,11 @@
-#include <stdio.h>
+п»ї#include <stdio.h>
 #include <string.h>
 
 #include "glExtInit.h"
 
 bool IsExtEnable(const char * pName)
 {
-    // Получить строку со списком доступных расширений
+    // РџРѕР»СѓС‡РёС‚СЊ СЃС‚СЂРѕРєСѓ СЃРѕ СЃРїРёСЃРєРѕРј РґРѕСЃС‚СѓРїРЅС‹С… СЂР°СЃС€РёСЂРµРЅРёР№
     const char * str = (const char *)glGetString(GL_EXTENSIONS);
 
     size_t szName = strlen( pName );

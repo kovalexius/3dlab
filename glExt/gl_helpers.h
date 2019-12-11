@@ -1,4 +1,4 @@
-#ifndef __GL_HELPERS__H
+п»ї#ifndef __GL_HELPERS__H
 #define __GL_HELPERS__H
 
 #include <string>
@@ -9,12 +9,12 @@
 
 void checkOpenGLerror();
 
-//! Функция печати лога шейдера
+//! Р¤СѓРЅРєС†РёСЏ РїРµС‡Р°С‚Рё Р»РѕРіР° С€РµР№РґРµСЂР°
 void shaderLog(unsigned int shader);
 
 char* filetobuf(const std::string &file);
 
-//-----------Создание шейдеров из файла и компилиция----------
+//-----------РЎРѕР·РґР°РЅРёРµ С€РµР№РґРµСЂРѕРІ РёР· С„Р°Р№Р»Р° Рё РєРѕРјРїРёР»РёС†РёСЏ----------
 void create_shader(const std::string & vert_,
 	const std::string & frag_,
 	GLuint & vertexShader,

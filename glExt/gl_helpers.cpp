@@ -1,4 +1,4 @@
-#include "gl_helpers.h"
+ï»¿#include "gl_helpers.h"
 
 #include <iostream>
 #include <glExtInit.h>
@@ -10,7 +10,7 @@ void checkOpenGLerror()
 		std::cout << "OpenGl error! - " << gluErrorString(errCode);
 }
 
-//! Ôóíêöèÿ ïå÷àòè ëîãà øåéäåðà
+//! Ð¤ÑƒÐ½ÐºÑ†Ð¸Ñ Ð¿ÐµÑ‡Ð°Ñ‚Ð¸ Ð»Ð¾Ð³Ð° ÑˆÐµÐ¹Ð´ÐµÑ€Ð°
 void shaderLog(unsigned int shader)
 {
 	int   infologLen = 0;
@@ -39,23 +39,23 @@ char* filetobuf(const std::string &file)
 	long length;
 	char *buf;
 
-	fptr = fopen(file.c_str(), "rb"); // Îòêðûòü ôàéë íà ÷òåíèå
-	if (!fptr) // âûéòè åñëè îøèáêà ïðè èíèöèàëèçàöèè fptr
+	fptr = fopen(file.c_str(), "rb"); // ÐžÑ‚ÐºÑ€Ñ‹Ñ‚ÑŒ Ñ„Ð°Ð¹Ð» Ð½Ð° Ñ‡Ñ‚ÐµÐ½Ð¸Ðµ
+	if (!fptr) // Ð²Ñ‹Ð¹Ñ‚Ð¸ ÐµÑÐ»Ð¸ Ð¾ÑˆÐ¸Ð±ÐºÐ° Ð¿Ñ€Ð¸ Ð¸Ð½Ð¸Ñ†Ð¸Ð°Ð»Ð¸Ð·Ð°Ñ†Ð¸Ð¸ fptr
 		return NULL;
-	fseek(fptr, 0, SEEK_END); // Ïåðåìåñòèòüñÿ â êîíåö ôàéëà
-	length = ftell(fptr); // Íàéòè ðàçìåð ôàéëà
-	buf = (char*)malloc(length + 1); // Âûäåëèòü áóôåð â êîòîðûé áóäåò ÷èòàòüñÿ ôàéë
-	fseek(fptr, 0, SEEK_SET); // Ïåðåìåñòèòüñÿ â íà÷àëî ôàéëà
-	fread(buf, length, 1, fptr); // Ïðî÷èòàòü ñîäåðæèìîå ôàéëà â áóôåð
-	fclose(fptr); // Çàêðûòü ôàéë
-	buf[length] = 0; // Ñèìâîë êîíöà áóôåðà (èíîãäà íóæåí èáî íåêîòîðûå ôóíêöèè old C íå ïðèíèìàþò ðàçìåð áóôåðà)
+	fseek(fptr, 0, SEEK_END); // ÐŸÐµÑ€ÐµÐ¼ÐµÑÑ‚Ð¸Ñ‚ÑŒÑÑ Ð² ÐºÐ¾Ð½ÐµÑ† Ñ„Ð°Ð¹Ð»Ð°
+	length = ftell(fptr); // ÐÐ°Ð¹Ñ‚Ð¸ Ñ€Ð°Ð·Ð¼ÐµÑ€ Ñ„Ð°Ð¹Ð»Ð°
+	buf = (char*)malloc(length + 1); // Ð’Ñ‹Ð´ÐµÐ»Ð¸Ñ‚ÑŒ Ð±ÑƒÑ„ÐµÑ€ Ð² ÐºÐ¾Ñ‚Ð¾Ñ€Ñ‹Ð¹ Ð±ÑƒÐ´ÐµÑ‚ Ñ‡Ð¸Ñ‚Ð°Ñ‚ÑŒÑÑ Ñ„Ð°Ð¹Ð»
+	fseek(fptr, 0, SEEK_SET); // ÐŸÐµÑ€ÐµÐ¼ÐµÑÑ‚Ð¸Ñ‚ÑŒÑÑ Ð² Ð½Ð°Ñ‡Ð°Ð»Ð¾ Ñ„Ð°Ð¹Ð»Ð°
+	fread(buf, length, 1, fptr); // ÐŸÑ€Ð¾Ñ‡Ð¸Ñ‚Ð°Ñ‚ÑŒ ÑÐ¾Ð´ÐµÑ€Ð¶Ð¸Ð¼Ð¾Ðµ Ñ„Ð°Ð¹Ð»Ð° Ð² Ð±ÑƒÑ„ÐµÑ€
+	fclose(fptr); // Ð—Ð°ÐºÑ€Ñ‹Ñ‚ÑŒ Ñ„Ð°Ð¹Ð»
+	buf[length] = 0; // Ð¡Ð¸Ð¼Ð²Ð¾Ð» ÐºÐ¾Ð½Ñ†Ð° Ð±ÑƒÑ„ÐµÑ€Ð° (Ð¸Ð½Ð¾Ð³Ð´Ð° Ð½ÑƒÐ¶ÐµÐ½ Ð¸Ð±Ð¾ Ð½ÐµÐºÐ¾Ñ‚Ð¾Ñ€Ñ‹Ðµ Ñ„ÑƒÐ½ÐºÑ†Ð¸Ð¸ old C Ð½Ðµ Ð¿Ñ€Ð¸Ð½Ð¸Ð¼Ð°ÑŽÑ‚ Ñ€Ð°Ð·Ð¼ÐµÑ€ Ð±ÑƒÑ„ÐµÑ€Ð°)
 
 	//std::cout << buf << std::endl;
 
-	return buf; // Âåðíóòü áóôåð
+	return buf; // Ð’ÐµÑ€Ð½ÑƒÑ‚ÑŒ Ð±ÑƒÑ„ÐµÑ€
 }
 
-//-----------Ñîçäàíèå øåéäåðîâ èç ôàéëà è êîìïèëèöèÿ----------
+//-----------Ð¡Ð¾Ð·Ð´Ð°Ð½Ð¸Ðµ ÑˆÐµÐ¹Ð´ÐµÑ€Ð¾Ð² Ð¸Ð· Ñ„Ð°Ð¹Ð»Ð° Ð¸ ÐºÐ¾Ð¼Ð¿Ð¸Ð»Ð¸Ñ†Ð¸Ñ----------
 void create_shader(const std::string & vert_,
 	const std::string & frag_,
 	GLuint & vertexShader,
