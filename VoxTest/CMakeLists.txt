@@ -42,6 +42,12 @@ add_executable( voxtest
                 ./src/file_data.h
                 ./src/octree_data.cpp
                 ./src/octree_data.h
+                ./src/shape_data.cpp
+                ./src/shape_data.h
+                ./src/octree_utils.cpp
+                ./src/octree_utils.h
+                ./src/vox_render.cpp
+                ./src/vox_render.h
                 ${MOC_SOURCES}
                 ${WIDGET_MOC}
                 ${GLVOXEL_MOC}

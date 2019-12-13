@@ -23,26 +23,26 @@ protected:
 
 private:
     QTimer *timerFreqFps;
-    GLuint voxProgram;
+    GLuint m_voxProgram;
 
 public slots:
     void renderFrame();
     void StartRender();
 
 private:
-    ShapeData shape_data;
-    float	R;			//	Дистанция до центра обзора
-    float	xRot;	//	Угол поворота в плоскости XZ в радианах
-    float	yRot;	//	Угол поворота в плоскости YZ в радианах
-    float	xMov;	// Временное смещение
-    float	yMov;	// визуального обзора (Нажатие Alt)
-    Vector3D pCamera;		//Где камера
-    Vector3D tCamera;		//Куда смотрит
-    Vector3D upCamera;		//Куда смотрит верх камеры
-    Vector3D up;	// Текущий вектор верха камеры
-    Vector3D position;	// Текущая позиция камеры
-    Vector3D shift; // Смещение камеры в боки
-    QPoint mPos;
+    ShapeData m_shape_data;
+    float	m_R;			//	Дистанция до центра обзора
+    float	m_xRot;	//	Угол поворота в плоскости XZ в радианах
+    float	m_yRot;	//	Угол поворота в плоскости YZ в радианах
+    float	m_xMov;	// Временное смещение
+    float	m_yMov;	// визуального обзора (Нажатие Alt)
+    Vector3D m_pCamera;		//Где камера
+    Vector3D m_tCamera;		//Куда смотрит
+    Vector3D m_upCamera;	//Куда смотрит верх камеры
+    Vector3D m_up;	        // Текущий вектор верха камеры
+    Vector3D m_position;	    // Текущая позиция камеры
+    Vector3D m_shift;         // Смещение камеры в боки
+    QPoint m_Pos;
     void GetXYZ( );
     void GetDXYZ( );
     void calculateCamera( );

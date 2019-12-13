@@ -7,6 +7,7 @@
 #include "file_data.h"
 #include "glvoxel.h"
 #include "octree_data.h"
+#include "octree_utils.h"
 #include "../../glExt/gl_helpers.h"
 
 
@@ -34,7 +35,7 @@ void programLog(unsigned int prog)
 
 GLVoxel::GLVoxel(QWidget *parent)
 {
-    voxProgram = 0;
+    m_voxProgram = 0;
 
     QGLFormat glFormat;
     glFormat.setRgba(true);
@@ -74,10 +75,11 @@ void GLVoxel::StartRender()
     timerFreqFps->setInterval(10);
     timerFreqFps->start();
     
-    ///*
     auto buf = read_data_file("box.dat");
-    shape_data = std::move(ShapeData(buf));
-    const Vector3D &origin = shape_data.getOrigin();
+
+    m_shape_data = std::move(ShapeData(buf));
+    /*
+    const Vector3D& origin = shape_data.getOrigin();
     uint64_t num = shape_data.getVoxNumber();
     float vox_metre = shape_data.getVoxMetre();
     float width = shape_data.getWidth();
@@ -87,18 +89,19 @@ void GLVoxel::StartRender()
                 " vox_metre=" << vox_metre << " width=" << width << " height=" << height << " depth=" << depth << std::endl;
     int h = OctreeUtils::getMaxDepthOctreeByData( shape_data );
     Octree octree( width, height, depth, h );
-    xRot = 0.0;
-    yRot = 0.0;
-    R = 15;
-    xMov = 0.0;
-    yMov = 0.0;
-    shift = Vector3D(0, 0, 0);
-    /**/
+    */
+    auto octree = OctreeUtils::createOctree(m_shape_data);
+    m_xRot = 0.0;
+    m_yRot = 0.0;
+    m_R = 15;
+    m_xMov = 0.0;
+    m_yMov = 0.0;
+    m_shift = Vector3D(0, 0, 0);
 }
 
 void GLVoxel::initShader()
 {
-    if (voxProgram)
+    if (m_voxProgram)
         freeShader();
 
     GLuint vShader;
@@ -117,13 +120,13 @@ void GLVoxel::initShader()
     shaderLog(fShader);
 
     // ! Создаем программу и прикрепляем шейдеры к ней
-    voxProgram = glCreateProgram();
-    glAttachShader(voxProgram, vShader);
-    glAttachShader(voxProgram, fShader);
+    m_voxProgram = glCreateProgram();
+    glAttachShader(m_voxProgram, vShader);
+    glAttachShader(m_voxProgram, fShader);
 
-    glLinkProgram(voxProgram);
+    glLinkProgram(m_voxProgram);
 
-    programLog(voxProgram);
+    programLog(m_voxProgram);
     // ! Проверяем статус сборки
     checkOpenGLerror();
 }
@@ -132,7 +135,7 @@ void GLVoxel::initShader()
 void GLVoxel::freeShader()
 {
     glUseProgram(0);
-    glDeleteProgram(voxProgram);
+    glDeleteProgram(m_voxProgram);
 }
 
 void GLVoxel::renderFrame()
@@ -140,7 +143,7 @@ void GLVoxel::renderFrame()
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     /*
-    glUseProgram( voxProgram );
+    //glUseProgram(m_voxProgram);
     glBegin(GL_QUADS);
     glVertex2f(-0.9f, -0.9f);
     glVertex2f(0.9f, -0.9f);
@@ -150,28 +153,35 @@ void GLVoxel::renderFrame()
     glUseProgram(0);
     /**/
     
-    ///*
-    glMatrixMode(GL_PROJECTION);                    //
-    glLoadIdentity();                               //	Установка произвольной перспективной
-    glFrustum(-1.1, 1.1, -1.0, 1.0, 0.5, 20);	//	проекции
-    glMatrixMode(GL_MODELVIEW);
-    glLoadIdentity();
-    calculateCamera();
-    gluLookAt(pCamera.x, pCamera.y, pCamera.z, tCamera.x, tCamera.y, tCamera.z, upCamera.x, upCamera.y, upCamera.z);	// Установка камеры
+    
     glPointSize(2.5);
-    uint64_t vox_number = shape_data.getVoxNumber();
+    uint64_t vox_number = m_shape_data.getVoxNumber();
     glBegin(GL_POINTS);
     for( uint64_t i = 0; i < vox_number; i++ )
     {
         Color col;
-        const Vector3D &vec = shape_data.getVoxel( i, col.color );
-        //std::cout << "r=" << col.r << " g=" << col.g << " b=" << col.b << " a=" << col.a << std::endl;
-        glColor4b( col.r, col.g, col.b, col.a );
-        glVertex3f( vec.x, vec.y, vec.z );
+        const Vector3D& vec = m_shape_data.getVoxel(i, col.color);
+        //std::cout << "r=" << col.r << " g=" << col.g << " b=" << col.b << " a=" << col.a << " x=" << vec.x << " y=" << vec.y << " z=" << vec.z << std::endl;
+        glColor4b(col.r, col.g, col.b, col.a);
+        glVertex3f(vec.x, vec.y, vec.z);
     }
     glEnd();
-    //getch();
-    /**/
+
+    glMatrixMode(GL_PROJECTION);                    //
+    glLoadIdentity();                               //	Установка произвольной перспективной
+    glFrustum(-1.1, 1.1, -1.0, 1.0, 0.5, 20);       //	проекции
+    glMatrixMode(GL_MODELVIEW);
+    glLoadIdentity();
+    calculateCamera();
+    gluLookAt(m_pCamera.x,
+                m_pCamera.y,
+                m_pCamera.z,
+                m_tCamera.x,
+                m_tCamera.y,
+                m_tCamera.z,
+                m_upCamera.x,
+                m_upCamera.y,
+                m_upCamera.z);	                    // Установка камеры
 
     updateGL();
 }
@@ -180,34 +190,34 @@ void GLVoxel::mouseMoveEvent(QMouseEvent *event)
 {
     if (event->modifiers()&Qt::ShiftModifier)
     {
-        if (xRot>-6.28 || xRot<6.28)
-            xRot += -(float)(event->x() - mPos.x())*0.0017444;
+        if (m_xRot>-6.28 || m_xRot<6.28)
+            m_xRot += -(float)(event->x() - m_Pos.x())*0.0017444;
         else
-            xRot = (float)6.28;
-        if (yRot>-6.28 || yRot<6.28)
-            yRot += (float)(event->y() - mPos.y())*0.0017444;
+            m_xRot = (float)6.28;
+        if (m_yRot>-6.28 || m_yRot<6.28)
+            m_yRot += (float)(event->y() - m_Pos.y())*0.0017444;
         else
-            yRot = (float)6.28;
+            m_yRot = (float)6.28;
         GetXYZ();
 
         setCursor(Qt::SizeAllCursor);
     }
     if (event->modifiers()&Qt::AltModifier)
     {
-        xMov = (float)(-event->x() + mPos.x()) / 4;
-        yMov = (float)(event->y() - mPos.y()) / 4;
+        m_xMov = (float)(-event->x() + m_Pos.x()) / 4;
+        m_yMov = (float)(event->y() - m_Pos.y()) / 4;
         GetDXYZ();
-        xMov = 0;
-        yMov = 0;
+        m_xMov = 0;
+        m_yMov = 0;
 
         setCursor(Qt::ClosedHandCursor);
     }
-    mPos = event->pos();
+    m_Pos = event->pos();
 }
 
 void GLVoxel::wheelEvent(QWheelEvent *e)
 {
-    e->delta()>0 ? R += R*0.05f : R -= R*0.05f;
+    e->delta()>0 ? m_R += m_R*0.05f : m_R -= m_R*0.05f;
     calculateCamera();
 }
 
@@ -222,25 +232,25 @@ void GLVoxel::calculateCamera( )
     GetXYZ( );
     GetDXYZ( );
 
-    pCamera = position + shift;
-    tCamera = shift;
-    upCamera = up;
+    m_pCamera = m_position + m_shift;
+    m_tCamera = m_shift;
+    m_upCamera = m_up;
 }
 
 void GLVoxel::GetXYZ( )
 {
-    position.y = sin(yRot)*R;
-    position.z = cos(xRot)*cos(yRot)*R;
-    position.x = sin(xRot)*cos(yRot)*R;
+    m_position.y = sin(m_yRot)*m_R;
+    m_position.z = cos(m_xRot)*cos(m_yRot)*m_R;
+    m_position.x = sin(m_xRot)*cos(m_yRot)*m_R;
 
-    up.y = cos(-yRot);
-    up.x = sin(xRot)*sin(-yRot);
-    up.z = cos(-xRot)*sin(-yRot);
+    m_up.y = cos(-m_yRot);
+    m_up.x = sin(m_xRot)*sin(-m_yRot);
+    m_up.z = cos(-m_xRot)*sin(-m_yRot);
 }
 
 void GLVoxel::GetDXYZ( )
 {
-    shift.x += cos(xRot)*xMov + sin(xRot)*sin(-yRot)*yMov;
-    shift.z += sin(-xRot)*xMov + sin(-yRot)*cos(xRot)*yMov;
-    shift.y += cos(yRot)*yMov;
+    m_shift.x += cos(m_xRot)*m_xMov + sin(m_xRot)*sin(-m_yRot)*m_yMov;
+    m_shift.z += sin(-m_xRot)*m_xMov + sin(-m_yRot)*cos(m_xRot)*m_yMov;
+    m_shift.y += cos(m_yRot)*m_yMov;
 }

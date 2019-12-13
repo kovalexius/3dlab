@@ -3,7 +3,7 @@
 
 #include <string>
 
-#include <Windows.h>
+//#include <Windows.h>
 #include "GL/glu.h"
 
 

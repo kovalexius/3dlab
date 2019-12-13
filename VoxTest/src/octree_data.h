@@ -19,10 +19,11 @@ union Color
 };
 #pragma pack(pop)
 
-class OctreeUtils
+
+
+struct VoxDataLevelBase
 {
-public:
-    enum LEN_ADDR
+     enum LEN_ADDR
     {
         ZERO_BYTES=0,
         ONE_BYTE=1,
@@ -31,26 +32,14 @@ public:
         FOUR_BYTES=4,
         FIVE_BYTES=5
     };
-    
-public:
-    static int getMaxDepthOctreeByData(const ShapeData& _data);
-    
-    static int getLenFieldAddress(int _depth);
-
-    static int getLenFieldAddress(const ShapeData& _data);
-    
-    static void createOctree(const ShapeData& _data, int _byte_len);
 };
 
-struct VoxDataLevelBase
-{};
-
-template<OctreeUtils::LEN_ADDR L>
+template<VoxDataLevelBase::LEN_ADDR L>
 struct VoxDataLevel : public VoxDataLevelBase
 {
     
     #pragma pack(push, 1)
-    template<OctreeUtils::LEN_ADDR _L>
+    template<VoxDataLevelBase::LEN_ADDR _L>
     struct VoxData
     {
         uint8_t offset[_L];
@@ -83,6 +72,7 @@ public:
     Octree(float _width, float _height, float _depth, uint32_t _h);
     void addVoxel(const Vector3D& _point, const uint32_t _color);
     void createVoxDataArray();
+    
     
 private:
     float x_middle;

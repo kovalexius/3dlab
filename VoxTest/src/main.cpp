@@ -7,6 +7,7 @@
 
 #include "generate_shapes.h"
 #include "octree_data.h"
+#include "octree_utils.h"
 
 int main(int argc, char *argv[])
 {
@@ -15,7 +16,7 @@ int main(int argc, char *argv[])
     create_data_file("box.dat", box_shape.getData(), box_shape.getSize());
     
     auto buf = read_data_file("box.dat");
-    
+
     ShapeData data(buf);
     
     int height = OctreeUtils::getMaxDepthOctreeByData(data);
@@ -24,7 +25,7 @@ int main(int argc, char *argv[])
     int byte_len = OctreeUtils::getLenFieldAddress(data);
     std::cout << "Get Len in bytes from number= " << OctreeUtils::getLenFieldAddress(data) << std::endl;
     
-    //OctreeUtils::createOctree(data, byte_len);
+    auto octree = OctreeUtils::createOctree(data);
     
     QApplication a(argc, argv);
     Widget w;
