@@ -25,11 +25,11 @@ ShapeData GenShapes::genBox(const float vox_size,
     
     ptr += sizeof(float);
     Vector3D coord(0.0, 0.0, 0.0);
-    *((float*)ptr) = coord.x;
+    *((float*)ptr) = coord.m_x;
     ptr += sizeof(float);
-    *((float*)ptr) = coord.y;
+    *((float*)ptr) = coord.m_y;
     ptr += sizeof(float);
-    *((float*)ptr) = coord.z;
+    *((float*)ptr) = coord.m_z;
 
     ptr += sizeof(float);
     *((float*)ptr) = width * vox_size;
@@ -50,21 +50,21 @@ ShapeData GenShapes::genBox(const float vox_size,
             uint32_t color0 = 0x401010ff;
             uint32_t color_back = 0x104040ff;
             
-            *((float*)ptr) = vec0.x;
+            *((float*)ptr) = vec0.m_x;
             ptr += sizeof(float);
-            *((float*)ptr) = vec0.y;
+            *((float*)ptr) = vec0.m_y;
             ptr += sizeof(float);
-            *((float*)ptr) = vec0.z;
+            *((float*)ptr) = vec0.m_z;
             ptr += sizeof(float);
             *((uint32_t*)ptr) = color0;
             ptr += sizeof(uint32_t);
             count++;
             
-            *((float*)ptr) = vec_back.x;
+            *((float*)ptr) = vec_back.m_x;
             ptr += sizeof(float);
-            *((float*)ptr) = vec_back.y;
+            *((float*)ptr) = vec_back.m_y;
             ptr += sizeof(float);
-            *((float*)ptr) = vec_back.z;
+            *((float*)ptr) = vec_back.m_z;
             ptr += sizeof(float);
             *((uint32_t*)ptr) = color_back;
             ptr += sizeof(uint32_t);
@@ -83,21 +83,21 @@ ShapeData GenShapes::genBox(const float vox_size,
             uint32_t color0 = 0x055005ff;
             uint32_t color_up = 0x500550ff;
             
-            *((float*)ptr) = vec0.x;
+            *((float*)ptr) = vec0.m_x;
             ptr += sizeof(float);
-            *((float*)ptr) = vec0.y;
+            *((float*)ptr) = vec0.m_y;
             ptr += sizeof(float);
-            *((float*)ptr) = vec0.z;
+            *((float*)ptr) = vec0.m_z;
             ptr += sizeof(float);
             *((uint32_t*)ptr) = color0;
             ptr += sizeof(uint32_t);
             count++;
             
-            *((float*)ptr) = vec_up.x;
+            *((float*)ptr) = vec_up.m_x;
             ptr += sizeof(float);
-            *((float*)ptr) = vec_up.y;
+            *((float*)ptr) = vec_up.m_y;
             ptr += sizeof(float);
-            *((float*)ptr) = vec_up.z;
+            *((float*)ptr) = vec_up.m_z;
             ptr += sizeof(float);
             *((uint32_t*)ptr) = color_up;
             ptr += sizeof(uint32_t);
@@ -116,21 +116,21 @@ ShapeData GenShapes::genBox(const float vox_size,
             uint32_t color0 = 0x202040ff;
             uint32_t color_right = 0x404020ff;
             
-            *((float*)ptr) = vec0.x;
+            *((float*)ptr) = vec0.m_x;
             ptr += sizeof(float);
-            *((float*)ptr) = vec0.y;
+            *((float*)ptr) = vec0.m_y;
             ptr += sizeof(float);
-            *((float*)ptr) = vec0.z;
+            *((float*)ptr) = vec0.m_z;
             ptr += sizeof(float);
             *((uint32_t*)ptr) = color0;
             ptr += sizeof(uint32_t);
             count++;
             
-            *((float*)ptr) = vec_right.x;
+            *((float*)ptr) = vec_right.m_x;
             ptr += sizeof(float);
-            *((float*)ptr) = vec_right.y;
+            *((float*)ptr) = vec_right.m_y;
             ptr += sizeof(float);
-            *((float*)ptr) = vec_right.z;
+            *((float*)ptr) = vec_right.m_z;
             ptr += sizeof(float);
             *((uint32_t*)ptr) = color_right;
             ptr += sizeof(uint32_t);

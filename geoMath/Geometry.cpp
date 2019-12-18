@@ -66,24 +66,6 @@ bool isInclude ( const double &P0, const double &P1, const double &num )			// П
 	return false;
 }
 
-double dot( const Vector3D& v1, const Vector3D& v2 )		// Скалярное умножение векторов
-{
-	return v1.x*v2.x + v1.y*v2.y + v1.z*v2.z;
-}
-
-Vector3D DotScal(const Vector3D &a, double num)
-{
-    return Vector3D(a.x*num, a.y*num, a.z*num);
-}
-
-Vector3D cross( const Vector3D& v1, const Vector3D& v2 )	// Векторное уимножение Cross Product
-{
-	Vector3D result;
-	result.x = v1.y * v2.z - v1.z * v2.y;
-	result.y = v1.z * v2.x - v1.x * v2.z;
-	result.z = v1.x * v2.y - v1.y * v2.x;
-	return result;
-}
 
 bool CrossPointLineAndPlane( Vector3D * dst, Vector3D point_plosk, Vector3D normal, Vector3D P0, Vector3D P1 ) // point_plosk - точка на плоскости, normal - нормаль к плоскости; P0, P1 - Отрезок; dst - выход
 {
@@ -95,24 +77,29 @@ bool CrossPointLineAndPlane( Vector3D * dst, Vector3D point_plosk, Vector3D norm
 	return true;
 }
 
-double twoDirectDistance( const Vector3D& A, const Vector3D& B, const Vector3D& C, const Vector3D& D ) // Расстояние между скрещивающимеся прямыми
+// Расстояние между скрещивающимеся прямыми
+double twoDirectDistance(const Vector3D& A, const Vector3D& B, const Vector3D& C, const Vector3D& D)
 {
 	Vector3D AB = B - A;
 	Vector3D CD = D - C;
-	Vector3D normal = cross( AB, CD ); // Нормаль к любой из двух плоскостей
+	Vector3D normal = cross(AB, CD); // Нормаль к любой из двух плоскостей
+
 	// Уравнение плоскости
 	// normal.x * ( x - D.x ) + normal.y * ( y - D.y ) + normal.z * ( z - D.z ) = 0;                               
 	// normal.x * x - normal.x * D.x + normal.y * y - normal.y * D.y + normal.z * z - normal.z * D.z = 0;
-	double P = ( normal.x * D.x + normal.y * D.y + normal.z * D.z );
+	double P = dot(normal, D);
+
 	// normal.x * x + normal.y * y + normal.z * z - P = 0;
 	// Нормирующий множитель
-	double normMul = 1.0 / sqrt( normal.x * normal.x + normal.y * normal.y + normal.z * normal.z );
+	double normMul = 1.0 / normal.Length(); //sqrt(normal.x * normal.x + normal.y * normal.y + normal.z * normal.z);
+
 	// Нормальное уравнение плоскоти
 	// normal.x * normMul * x + normal.y * normMul * y + normal.z * normMul * z - P * normMul = 0
-        return fabs( normal.x * normMul * B.x + normal.y * normMul * B.y + normal.z * normMul * B.z - P * normMul );
+    return fabs(normal.m_x * normMul * B.m_x + normal.m_y * normMul * B.m_y + normal.m_z * normMul * B.m_z - P * normMul );
 }
 
-double twoDirectDistanceVer2( const Vector3D& A, const Vector3D& B, const Vector3D& C, const Vector3D& D ) // Расстояние между скрещивающимеся прямыми
+// Расстояние между скрещивающимеся прямыми
+double twoDirectDistanceVer2(const Vector3D& A, const Vector3D& B, const Vector3D& C, const Vector3D& D)
 {
         //Vector3D AB = B - A;
         //Vector3D CD = D - C;
@@ -164,9 +151,9 @@ Edge::Edge( const Vector3D *vec1, const Vector3D *vec2 )
 	}
 
 	collinear = *v2 - *v1;
-	alfa = collinear.x;
-	beta = collinear.y;
-	gamma = collinear.z;
+	alfa = collinear.m_x;
+	beta = collinear.m_y;
+	gamma = collinear.m_z;
 }
 
 bool Edge::operator != ( const Edge& other ) const
@@ -190,12 +177,12 @@ bool Edge::GetXZ( const double &y, Vector3D& vec ) const
 {
 	if( beta != 0)
 	{
-		double x = ( ( y - v1->y ) * alfa ) / beta + v1->x;
-		double z = ( ( y - v1->y ) * gamma ) / beta + v1->z;
-		vec = Vector3D( x, y, z );
+		double x = ((y - v1->m_y) * alfa) / beta + v1->m_x;
+		double z = ((y - v1->m_y) * gamma) / beta + v1->m_z;
+		vec = Vector3D(x, y, z);
 		Vector3D v1p = vec - *v1;
 		Vector3D pv2 = *v2 - vec;
-		if( dot( v1p, collinear ) >= 0 && dot( pv2, collinear ) > 0 )
+		if(dot(v1p, collinear) >= 0 && dot(pv2, collinear) > 0)
 			return true;
 	}
 	return false;
@@ -225,162 +212,7 @@ bool Edge::isBelong( const Edge& other ) const
 }
 //end of Edge
 
-// Vector2D
-Vector2D::Vector2D()
-{
-	x = 0;
-	y = 0;
-}
 
-Vector2D::Vector2D( double x, double y )
-{
-	this->x = x;
-	this->y = y;
-}
-
-Vector2D::Vector2D( const Vector2D& other )
-{
-	x = other.x;
-	y = other.y;
-}
-
-Vector2D& Vector2D::operator= ( const Vector2D& other )
-{
-	x = other.x;
-	y = other.y;
-	return *this;
-}
-
-bool Vector2D::operator!=( const Vector2D& other ) const
-{
-	return ( x != other.x || y != other.y );
-}
-
-bool Vector2D::operator==( const Vector2D& other ) const
-{
-	return !( x != other.x || y != other.y );
-}
-
-bool Vector2D::operator<( const Vector2D& other ) const
-{
-	if( x != other.x )
-		return ( x < other.x );
-	return ( y < other.y );
-}
-// end of Vector2D
-
-// Vector3D
-Vector3D::Vector3D()
-{
-	x=0;
-	y=0;
-	z=0;
-}
-
-Vector3D::Vector3D( double x, double y, double z )
-{
-	this->x = x;
-	this->y = y;
-	this->z = z;
-}
-
-Vector3D::Vector3D( const Vector3D& other )
-{
-	x = other.x;
-	y = other.y;
-	z = other.z;
-}
-
-Vector3D& Vector3D::operator = ( const Vector3D& other )
-{
-	x = other.x;
-	y = other.y;
-	z = other.z;
-
-	return *this;
-}
-
-bool Vector3D::operator!= ( const Vector3D& other ) const
-{
-	if( x != other.x || y != other.y || z != other.z )
-		return true;
-	return false;
-}
-
-bool Vector3D::operator== ( const Vector3D& other ) const
-{
-	return !( operator!=(other) );
-}
-
-bool Vector3D::operator< ( const Vector3D& other ) const
-{
-	if( x != other.x )
-		return ( x < other.x );
-	else if ( y != other.y )
-		return ( y < other.y );
-	else if ( z != other.z )
-		return ( z < other.z );
-	
-	return false;
-}
-
-Vector3D Vector3D::operator-( const Vector3D& other ) const
-{
-	return Vector3D( x - other.x, y - other.y, z - other.z );
-}
-
-Vector3D Vector3D::operator+( const Vector3D& other ) const
-{
-	return Vector3D( x + other.x, y + other.y, z + other.z );
-}
-
-Vector3D Vector3D::operator*( const double& num ) const
-{
-	return Vector3D( x*num, y*num, z*num );
-}
-
-Vector3D Vector3D::operator/( const double& num ) const
-{
-	return Vector3D( x/num, y/num, z/num );
-}
-
-double Vector3D::Scalar() const
-{
-	return x*x + y*y + z*z;
-}
-
-double Vector3D::Length() const
-{
-	return sqrt(Scalar());
-}
-// end of Vector3D
-
-// Vector4D
-Vector4D::Vector4D()
-{
-}
-
-Vector4D::Vector4D( const double &x, const double &y, const double &z, const double &w )
-{
-	this->x = x;
-	this->y = y;
-	this->z = z;
-	this->w = w;
-}
-
-Vector4D::Vector4D( const Vector4D &other )
-{
-	x = other.x;
-	y = other.y;
-	z = other.z;
-	w = other.w;
-}
-
-Vector3D Vector4D::xyz() const
-{
-	return Vector3D( x, y, z );
-}
-// end of Vector4D
 
 //Matrix4x4
 Matrix4x4::Matrix4x4()
@@ -415,21 +247,21 @@ Matrix4x4::Matrix4x4(	const double &m11, const double &m12, const double &m13, c
 	m[15] =	 m44;
 }
 
-Matrix4x4::Matrix4x4( const Vector3D &vec1, const Vector3D &vec2, const Vector3D &vec3 )
+Matrix4x4::Matrix4x4(const Vector3D &vec1, const Vector3D &vec2, const Vector3D &vec3)
 {
-	m[0] = vec1.x;
-	m[1] = vec2.x;
-	m[2] = vec3.x;
+	m[0] = vec1.m_x;
+	m[1] = vec2.m_x;
+	m[2] = vec3.m_x;
 	m[3] = 0;
 
-	m[4] = vec1.y;
-	m[5] = vec2.y;
-	m[6] = vec3.y;
+	m[4] = vec1.m_y;
+	m[5] = vec2.m_y;
+	m[6] = vec3.m_y;
 	m[7] = 0;
 
-	m[8] = vec1.z;
-	m[9] = vec2.z;
-	m[10]= vec3.z;
+	m[8] = vec1.m_z;
+	m[9] = vec2.m_z;
+	m[10]= vec3.m_z;
 	m[11]= 0;
 
 	m[12]= 0;
@@ -438,7 +270,7 @@ Matrix4x4::Matrix4x4( const Vector3D &vec1, const Vector3D &vec2, const Vector3D
 	m[15]= 1;
 }
 
-Matrix4x4::Matrix4x4( double *m )
+Matrix4x4::Matrix4x4(double *m)
 {
 	m = new double[16];
 	for( int i = 0; i<16; i++ )

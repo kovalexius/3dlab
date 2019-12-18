@@ -52,13 +52,16 @@ Octree OctreeUtils::createOctree(const ShapeData& _data)
     float height = _data.getHeight();
     float depth = _data.getDepth();
     
-    int h = getMaxDepthOctreeByData(_data);
-    
+    int treeheight = OctreeUtils::getMaxDepthOctreeByData(_data);
+    std::cout << "Height of octree = " << height << std::endl;
+    std::cout << "Get Len in bytes from depth = " << OctreeUtils::getLenFieldAddress(treeheight) << std::endl;
+    std::cout << "Get Len in bytes from number= " << OctreeUtils::getLenFieldAddress(_data) << std::endl;
+
     //std::cout << "orig.x=" << origin.x << " orig.y=" << origin.y << " orig.z=" << origin.z << " count of voxels=" << voxCount <<
     //            " vox_metre=" << vox_metre << " width=" << width << " height=" << height << " depth=" << depth << std::endl;
                 
     // строительство дерева снизу вверх
-    Octree octree(width, height, depth, h);
+    Octree octree(width, height, depth, treeheight);
 
     for(auto i = 0; i < voxCount; i++)
     {
@@ -66,6 +69,8 @@ Octree OctreeUtils::createOctree(const ShapeData& _data)
         auto vec = _data.getVoxel(i, color);
         octree.addVoxel(vec, color);
     }
+
+    std::cout << "Number of leafs: " << octree.getLeafNumber() << std::endl;
 
     return octree;
 }

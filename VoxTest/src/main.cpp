@@ -19,12 +19,6 @@ int main(int argc, char *argv[])
 
     ShapeData data(buf);
     
-    int height = OctreeUtils::getMaxDepthOctreeByData(data);
-    std::cout << "Height of octree = " << height << std::endl;
-    std::cout << "Get Len in bytes from depth = " << OctreeUtils::getLenFieldAddress(height) << std::endl;
-    int byte_len = OctreeUtils::getLenFieldAddress(data);
-    std::cout << "Get Len in bytes from number= " << OctreeUtils::getLenFieldAddress(data) << std::endl;
-    
     auto octree = OctreeUtils::createOctree(data);
     
     QApplication a(argc, argv);

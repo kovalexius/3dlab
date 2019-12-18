@@ -73,12 +73,17 @@ public:
     void addVoxel(const Vector3D& _point, const uint32_t _color);
     void createVoxDataArray();
     
+    int getLeafNumber()
+    {
+        return m_number_of_leaf;
+    }
     
 private:
-    float x_middle;
-    float y_middle;
-    float z_middle;
-    uint32_t m_h;
+    int     m_number_of_leaf;
+    float   x_middle;
+    float   y_middle;
+    float   z_middle;
+    uint32_t    m_h;
     OctreeNode *node[8];
 };
 

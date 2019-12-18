@@ -4,7 +4,7 @@
 #include "generate_shapes.h"
 #include "octree_utils.h"
 
-Octree::Octree(float width, float height, float depth, uint32_t h)
+Octree::Octree(float width, float height, float depth, uint32_t h) : m_number_of_leaf(0)
 {
     x_middle = width / 2;
     y_middle = height / 2;
@@ -18,52 +18,52 @@ void Octree::addVoxel(const Vector3D &point, const uint32_t color)
 {
     int i;
     Vector3D vec = point;
-    if( vec.x < x_middle )
+    if(vec.m_x < x_middle)
     {
-        if( vec.y < y_middle )
+        if(vec.m_y < y_middle)
         {
-            if( vec.z < z_middle )
+            if(vec.m_z < z_middle)
                 i = 0;
             else
             {
                 i = 4;
-                vec.z -= z_middle;
+                vec.m_z -= z_middle;
             }
         }
         else
         {
-            vec.y -= y_middle;
-            if( vec.z < z_middle )
+            vec.m_y -= y_middle;
+            if( vec.m_z < z_middle )
                 i = 2;
             else
             {
                 i = 6;
-                vec.z -= z_middle;
+                vec.m_z -= z_middle;
             }
         }
     }
     else
     {
-        vec.x -= x_middle;
-        if( vec.y < y_middle )
+        vec.m_x -= x_middle;
+        if(vec.m_y < y_middle)
         {
-            if( vec.z < z_middle )
+            if(vec.m_z < z_middle)
                 i = 1;
             else
             {
                 i = 5;
-                vec.z -= z_middle;
+                vec.m_z -= z_middle;
             }
         }
         else
         {
-            vec.y -= y_middle;
-            if( vec.z < z_middle )
+            vec.m_y -= y_middle;
+            if(vec.m_z < z_middle)
                 i = 3;
             else
             {
                 i = 7;
-                vec.z -= z_middle;
+                vec.m_z -= z_middle;
             }
         }
     }
@@ -104,66 +104,71 @@ Octree::OctreeNode::OctreeNode(float width, float height, float depth, uint32_t 
     for( int i = 0; i < 8; i++ )
         node[i] = nullptr;
     m_root = root;
+
+    std::cout << "x_middle: " << x_middle << " y_middle: " << y_middle << " z_middle: " << z_middle << std::endl;
 }
 
 void Octree::OctreeNode::addVoxel(const Vector3D& point, const uint32_t color)
 {
     int i;
     Vector3D vec = point;
-    if( vec.x < x_middle )
+    if(vec.m_x < x_middle)
     {
-        if( vec.y < y_middle )
+        if(vec.m_y < y_middle)
         {
-            if( vec.z < z_middle )
+            if(vec.m_z < z_middle)
                 i = 0;
             else
             {
                 i = 4;
-                vec.z -= z_middle;
+                vec.m_z -= z_middle;
             }
         }
         else
         {
-            vec.y -= y_middle;
-            if( vec.z < z_middle )
+            vec.m_y -= y_middle;
+            if(vec.m_z < z_middle)
                 i = 2;
             else
             {
                 i = 6;
-                vec.z -= z_middle;
+                vec.m_z -= z_middle;
             }
         }
     }
     else
     {
-        vec.x -= x_middle;
-        if( vec.y < y_middle )
+        vec.m_x -= x_middle;
+        if(vec.m_y < y_middle)
         {
-            if( vec.z < z_middle )
+            if(vec.m_z < z_middle)
                 i = 1;
             else
             {
                 i = 5;
-                vec.z -= z_middle;
+                vec.m_z -= z_middle;
             }
         }
         else
         {
-            vec.y -= y_middle;
-            if( vec.z < z_middle )
+            vec.m_y -= y_middle;
+            if(vec.m_z < z_middle)
                 i = 3;
             else
             {
                 i = 7;
-                vec.z -= z_middle;
+                vec.m_z -= z_middle;
             }
         }
     }
     
-    if( is_leaf )
+    if(is_leaf)
     {
         if( !node[i] )
+        {
             node[i] = (OctreeNode*)new uint32_t(color);
+            m_root->m_number_of_leaf++;
+        }
         else
         {
             delete node[i];
@@ -173,7 +178,7 @@ void Octree::OctreeNode::addVoxel(const Vector3D& point, const uint32_t color)
     else
     {
         if( !node[i] )
-            node[i] = new OctreeNode( x_middle, y_middle, z_middle, m_h - 1, m_root );
+            node[i] = new OctreeNode(x_middle, y_middle, z_middle, m_h - 1, m_root);
         node[i]->addVoxel( vec, color );
     }
 }

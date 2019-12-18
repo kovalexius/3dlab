@@ -163,7 +163,7 @@ void GLVoxel::renderFrame()
         const Vector3D& vec = m_shape_data.getVoxel(i, col.color);
         //std::cout << "r=" << col.r << " g=" << col.g << " b=" << col.b << " a=" << col.a << " x=" << vec.x << " y=" << vec.y << " z=" << vec.z << std::endl;
         glColor4b(col.r, col.g, col.b, col.a);
-        glVertex3f(vec.x, vec.y, vec.z);
+        glVertex3f(vec.m_x, vec.m_y, vec.m_z);
     }
     glEnd();
 
@@ -173,15 +173,15 @@ void GLVoxel::renderFrame()
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
     calculateCamera();
-    gluLookAt(m_pCamera.x,
-                m_pCamera.y,
-                m_pCamera.z,
-                m_tCamera.x,
-                m_tCamera.y,
-                m_tCamera.z,
-                m_upCamera.x,
-                m_upCamera.y,
-                m_upCamera.z);	                    // Установка камеры
+    gluLookAt(m_pCamera.m_x,
+                m_pCamera.m_y,
+                m_pCamera.m_z,
+                m_tCamera.m_x,
+                m_tCamera.m_y,
+                m_tCamera.m_z,
+                m_upCamera.m_x,
+                m_upCamera.m_y,
+                m_upCamera.m_z);	                    // Установка камеры
 
     updateGL();
 }
@@ -239,18 +239,18 @@ void GLVoxel::calculateCamera( )
 
 void GLVoxel::GetXYZ( )
 {
-    m_position.y = sin(m_yRot)*m_R;
-    m_position.z = cos(m_xRot)*cos(m_yRot)*m_R;
-    m_position.x = sin(m_xRot)*cos(m_yRot)*m_R;
+    m_position.m_y = sin(m_yRot)*m_R;
+    m_position.m_z = cos(m_xRot)*cos(m_yRot)*m_R;
+    m_position.m_x = sin(m_xRot)*cos(m_yRot)*m_R;
 
-    m_up.y = cos(-m_yRot);
-    m_up.x = sin(m_xRot)*sin(-m_yRot);
-    m_up.z = cos(-m_xRot)*sin(-m_yRot);
+    m_up.m_y = cos(-m_yRot);
+    m_up.m_x = sin(m_xRot)*sin(-m_yRot);
+    m_up.m_z = cos(-m_xRot)*sin(-m_yRot);
 }
 
 void GLVoxel::GetDXYZ( )
 {
-    m_shift.x += cos(m_xRot)*m_xMov + sin(m_xRot)*sin(-m_yRot)*m_yMov;
-    m_shift.z += sin(-m_xRot)*m_xMov + sin(-m_yRot)*cos(m_xRot)*m_yMov;
-    m_shift.y += cos(m_yRot)*m_yMov;
+    m_shift.m_x += cos(m_xRot)*m_xMov + sin(m_xRot)*sin(-m_yRot)*m_yMov;
+    m_shift.m_z += sin(-m_xRot)*m_xMov + sin(-m_yRot)*cos(m_xRot)*m_yMov;
+    m_shift.m_y += cos(m_yRot)*m_yMov;
 }
