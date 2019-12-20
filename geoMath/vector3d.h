@@ -1,6 +1,8 @@
 #ifndef __VECTOR3D__H
 #define __VECTOR3D__H
 
+#include <iostream>
+
 //------------------------------------------------------------------------------
 //------------------------------ class Vector3D --------------------------------
 //------------------------------------------------------------------------------
@@ -55,7 +57,10 @@ public:
 	//! Отмасштабировать вектор
 	Vector3D Scaling(const double& _rhs) const;
 
+	// Сгенерировать вектор единичной длины
 	Vector3D Normalize() const;
+
+	friend std::ostream& operator<<(std::ostream& _os, const Vector3D& _vec);
 
 	double m_x;
 	double m_y;
@@ -69,5 +74,7 @@ Vector3D DotScal(const Vector3D& a, double num);
 
 // Векторное уимножение Cross Product
 Vector3D cross(const Vector3D& v1, const Vector3D& v2);
+
+std::ostream& operator<<(std::ostream& _os, const Vector3D& _vec);
 
 #endif

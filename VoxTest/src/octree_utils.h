@@ -2,7 +2,7 @@
 #define __OCTREE_UTILS__H
 
 #include "shape_data.h"
-#include "octree_data.h"
+#include "octree.h"
 
 class OctreeUtils
 {

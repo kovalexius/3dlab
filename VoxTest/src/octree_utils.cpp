@@ -45,12 +45,12 @@ int OctreeUtils::getLenFieldAddress(const ShapeData& _data)
 
 Octree OctreeUtils::createOctree(const ShapeData& _data)
 {
-    const Vector3D &origin = _data.getOrigin();
+    Vector3D origin = _data.getOrigin();
     uint64_t voxCount = _data.getVoxNumber();
-    float vox_metre = _data.getVoxMetre();
-    float width = _data.getWidth();
-    float height = _data.getHeight();
-    float depth = _data.getDepth();
+    double vox_metre = static_cast<double>(_data.getVoxMetre());
+    double width = static_cast<double>(_data.getWidth());
+    double height = static_cast<double>(_data.getHeight());
+    double depth = static_cast<double>(_data.getDepth());
     
     int treeheight = OctreeUtils::getMaxDepthOctreeByData(_data);
     std::cout << "Height of octree = " << height << std::endl;
@@ -61,7 +61,8 @@ Octree OctreeUtils::createOctree(const ShapeData& _data)
     //            " vox_metre=" << vox_metre << " width=" << width << " height=" << height << " depth=" << depth << std::endl;
                 
     // строительство дерева снизу вверх
-    Octree octree(width, height, depth, treeheight);
+    std::cout << __FUNCTION__ << " origin: " << origin << std::endl << " size: " << Vector3D(width, height, depth) << std::endl;
+    Octree octree(origin, Vector3D(width, height, depth), treeheight);
 
     for(auto i = 0; i < voxCount; i++)
     {

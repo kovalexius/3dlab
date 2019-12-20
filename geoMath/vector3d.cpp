@@ -115,4 +115,10 @@ Vector3D Vector3D::Normalize() const
 {
 	return Scaling(1.0/Length());
 }
+
+std::ostream& operator<<(std::ostream& _os, const Vector3D& _vec)
+{
+	_os << "x: " << _vec.m_x << " y: " << _vec.m_y << " z: " << _vec.m_z;
+	return _os;
+}
 // end of Vector3D

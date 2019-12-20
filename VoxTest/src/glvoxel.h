@@ -22,7 +22,7 @@ protected:
     void freeShader();
 
 private:
-    QTimer *timerFreqFps;
+    QTimer *m_timerFreqFps;
     GLuint m_voxProgram;
 
 public slots:

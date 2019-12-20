@@ -6,9 +6,10 @@
 
 #include "file_data.h"
 #include "glvoxel.h"
-#include "octree_data.h"
+#include "octree.h"
 #include "octree_utils.h"
 #include "../../glExt/gl_helpers.h"
+#include "vox_data_level.h"
 
 
 //! Функция печати лога шейдера
@@ -46,8 +47,8 @@ GLVoxel::GLVoxel(QWidget *parent)
     glFormat.setProfile(QGLFormat::OpenGLContextProfile::CompatibilityProfile);
     ::QGLWidget(glFormat, parent);
 
-    timerFreqFps = new QTimer(this);
-    connect(timerFreqFps, SIGNAL(timeout()), this, SLOT(renderFrame()));
+    m_timerFreqFps = new QTimer(this);
+    connect(m_timerFreqFps, SIGNAL(timeout()), this, SLOT(renderFrame()));
 }
 
 void GLVoxel::resizeEvent(QResizeEvent * event)
@@ -72,31 +73,34 @@ void GLVoxel::StartRender()
     
     initShader();
 
-    timerFreqFps->setInterval(10);
-    timerFreqFps->start();
     
     auto buf = read_data_file("box.dat");
+    m_shape_data = ShapeData(buf);
+    //*
+    const Vector3D& origin = m_shape_data.getOrigin();
+    uint64_t num = m_shape_data.getVoxNumber();
+    float vox_metre = m_shape_data.getVoxMetre();
+    float width = m_shape_data.getWidth();
+    float height = m_shape_data.getHeight();
+    float depth = m_shape_data.getDepth();
 
-    m_shape_data = std::move(ShapeData(buf));
-    /*
-    const Vector3D& origin = shape_data.getOrigin();
-    uint64_t num = shape_data.getVoxNumber();
-    float vox_metre = shape_data.getVoxMetre();
-    float width = shape_data.getWidth();
-    float height = shape_data.getHeight();
-    float depth = shape_data.getDepth();
-    std::cout << "orig.x=" << origin.x << " orig.y=" << origin.y << " orig.z=" << origin.z << " num of voxels=" << num <<
+    std::cout << __FUNCTION__ << " orig.x=" << origin.m_x << " orig.y=" << origin.m_y << " orig.z=" << origin.m_z << " num of voxels=" << num <<
                 " vox_metre=" << vox_metre << " width=" << width << " height=" << height << " depth=" << depth << std::endl;
-    int h = OctreeUtils::getMaxDepthOctreeByData( shape_data );
-    Octree octree( width, height, depth, h );
-    */
-    auto octree = OctreeUtils::createOctree(m_shape_data);
+
+    int h = OctreeUtils::getMaxDepthOctreeByData(m_shape_data);
+
+    /**/
+    
+    //auto octree = OctreeUtils::createOctree(m_shape_data);
     m_xRot = 0.0;
     m_yRot = 0.0;
     m_R = 15;
     m_xMov = 0.0;
     m_yMov = 0.0;
     m_shift = Vector3D(0, 0, 0);
+
+    m_timerFreqFps->setInterval(10);
+    m_timerFreqFps->start();
 }
 
 void GLVoxel::initShader()
@@ -153,19 +157,21 @@ void GLVoxel::renderFrame()
     glUseProgram(0);
     /**/
     
-    
+    /*
     glPointSize(2.5);
     uint64_t vox_number = m_shape_data.getVoxNumber();
+    std::cout << __FUNCTION__ << " vox_number: " << vox_number << std::endl;
     glBegin(GL_POINTS);
     for( uint64_t i = 0; i < vox_number; i++ )
     {
         Color col;
         const Vector3D& vec = m_shape_data.getVoxel(i, col.color);
-        //std::cout << "r=" << col.r << " g=" << col.g << " b=" << col.b << " a=" << col.a << " x=" << vec.x << " y=" << vec.y << " z=" << vec.z << std::endl;
+        //std::cout << "r=" << col.r << " g=" << col.g << " b=" << col.b << " a=" << col.a << " x=" << vec.m_x << " y=" << vec.m_y << " z=" << vec.m_z << std::endl;
         glColor4b(col.r, col.g, col.b, col.a);
         glVertex3f(vec.m_x, vec.m_y, vec.m_z);
     }
     glEnd();
+    /**/
 
     glMatrixMode(GL_PROJECTION);                    //
     glLoadIdentity();                               //	Установка произвольной перспективной

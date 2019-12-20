@@ -46,8 +46,10 @@ add_executable( voxtest
                 ./src/generate_shapes.h
                 ./src/file_data.cpp
                 ./src/file_data.h
-                ./src/octree_data.cpp
-                ./src/octree_data.h
+                ./src/octree.cpp
+                ./src/octree.h
+                ./src/octree_node.cpp
+                ./src/octree_node.h
                 ./src/shape_data.cpp
                 ./src/shape_data.h
                 ./src/octree_utils.cpp

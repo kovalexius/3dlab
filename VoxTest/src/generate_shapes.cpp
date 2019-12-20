@@ -72,7 +72,7 @@ ShapeData GenShapes::genBox(const float vox_size,
         }
     }
     
-    std::cout << "count vox = " << count << " bytes:" << count * size_of_voxel << std::endl;
+    //std::cout << "count vox = " << count << " bytes:" << count * size_of_voxel << std::endl;
     
     for (uint32_t x = 0; x < width; x++)
     {
@@ -105,7 +105,7 @@ ShapeData GenShapes::genBox(const float vox_size,
         }
     }
     
-    std::cout << "count vox = " << count << " bytes:" << count * size_of_voxel << std::endl;
+    //std::cout << "count vox = " << count << " bytes:" << count * size_of_voxel << std::endl;
     
     for (uint32_t y = 1; y < height-1; y++)
     {
@@ -138,7 +138,7 @@ ShapeData GenShapes::genBox(const float vox_size,
         }
     }
     
-    std::cout << "count vox = " << count << " bytes:" << count * size_of_voxel << std::endl;
+    //std::cout << "count vox = " << count << " bytes:" << count * size_of_voxel << std::endl;
     
     return result;
 }
