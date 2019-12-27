@@ -1,30 +1,26 @@
 #include "shape_data.h"
+#include <limits>
 
 ShapeData::ShapeData()
 {
-    m_num_vox = 0;
-}
-
-ShapeData::ShapeData(int _size) : m_data(_size)
-{
-    m_num_vox = (m_data.size() - VXC::size_of_head) / VXC::size_of_voxel;
+    m_data.resize(sizeof(Head));
+    Head *head = reinterpret_cast<Head*>(m_data.data());
+    setMaximum(head->m_minimum);
+    setMinimum(head->m_maximum);
 }
 
 ShapeData::ShapeData(const std::vector<char>& _buf) : m_data(_buf)
 {
-    m_num_vox = (m_data.size() - VXC::size_of_head) / VXC::size_of_voxel;
 }
 
 
 ShapeData::ShapeData(ShapeData&& _other)
 {
-    m_num_vox = _other.m_num_vox;
     m_data = std::move(_other.m_data);
 }
 
 ShapeData& ShapeData::operator=(ShapeData&& _other)
 {
-    m_num_vox = _other.m_num_vox;
     m_data = std::move(_other.m_data);
     
     return *this;
@@ -35,82 +31,110 @@ char* ShapeData::getData() const
     return (char*)m_data.data();
 }
 
-void ShapeData::setData()
-{
-}
-
-uint64_t ShapeData::getSize() const
+uint64_t ShapeData::getDataSize() const
 {
     return m_data.size();
 }
+
 uint64_t ShapeData::getVoxNumber() const
 {
-    return m_num_vox;
+    return (m_data.size() - sizeof(Head))/sizeof(Voxel);
 }
 
 Vector3D ShapeData::getOrigin() const
 {
-    /*
-    float *vec_ptr = (Vector3D*)m_data.data();
-    Vector3D result(static_cast<double>(f_data[1]), 
-                    static_cast<double>(f_data[2]), 
-                    static_cast<double>(f_data[3]));
-    return result;
-    */
-
-    auto vec_ptr = static_cast<Vector3D*>(m_data.data() + sizeof(double));
-    return *vec_ptr;
+    const Head *head_ptr = reinterpret_cast<const Head*>(m_data.data());
+    return head_ptr->m_origin;
 }
 
-void ShapeData::setOrigin(Vector3D& _origin)
+void ShapeData::setOrigin(const Vector3D& _origin)
 {
-    auto vec_ptr = static_cast<Vector3D*>(m_data.data() + sizeof(double));
-    *vec_ptr = _origin;
+    Head *head_ptr = reinterpret_cast<Head*>(m_data.data());
+    head_ptr->m_origin = _origin;
 }
 
-/*
-float ShapeData::getWidth() const
+Vector3D ShapeData::getSpatialSize() const
 {
-    float *f_data = (float*)m_data.data();
-    return f_data[4];
+    const Head *head = reinterpret_cast<const Head*>(m_data.data());
+    return head->m_spatialSize;
 }
 
-float ShapeData::getHeight() const
+void ShapeData::setSpatialSize(const Vector3D& _spatialSize)
 {
-    float *f_data = (float*)m_data.data();
-    return f_data[5];
+    Head *head = reinterpret_cast<Head*>(m_data.data());
+    head->m_spatialSize = _spatialSize;
 }
-
-float ShapeData::getDepth() const
-{
-    float *f_data = (float*)m_data.data();
-    return f_data[6];
-}
-*/
-
-Vector3D ShapeData::getSpatialDimension() const
-{
-    
-}
-
-void ShapeData::setSpatialDimension(const Vector3D& _spatialDimension)
-{}
 
 float ShapeData::getVoxMetre() const
 {
-    float *f_data = (float*)m_data.data();
-    return f_data[0];
+    const Head *head = reinterpret_cast<const Head*>(m_data.data());
+    return head->m_voxSizeDimension;
 }
 
-Vector3D ShapeData::getVoxel(const int index, uint32_t &color) const
+void ShapeData::setVoxMetre(const float _voxSpatialSize)
 {
-    float *f_data = (float*)(m_data.data() + VXC::size_of_head + VXC::size_of_voxel * index);
-    uint32_t *i_data = (uint32_t*)(m_data.data() + VXC::size_of_head + VXC::size_of_voxel * index + VXC::size_of_vec);
-    color = i_data[0];
+    Head *head = reinterpret_cast<Head*>(m_data.data());
+    head->m_voxSizeDimension = _voxSpatialSize;
+}
 
-    std::cout << __FUNCTION__ << " f_data[0]: " << f_data[0] << " f_data[1]: " << f_data[1] << " f_data[2]: " << f_data[2] << std::endl;
+Vector3D ShapeData::getVoxel(const int _index, uint32_t& _color) const
+{
+    const Voxel *voxel = reinterpret_cast<const Voxel*>(m_data.data() + VXC::size_of_head);
+    _color = voxel[_index].m_color.color;
+    
+    return voxel[_index].m_vec;
+}
 
-    return Vector3D(static_cast<double>(f_data[0]), 
-                    static_cast<double>(f_data[1]), 
-                    static_cast<double>(f_data[2]));
+
+void ShapeData::addVoxel(const Vector3D& _vec, const uint32_t _color)
+{
+    auto prevSize = m_data.size();
+    m_data.resize(prevSize + sizeof(Voxel));
+    Head *head = reinterpret_cast<Head*>(m_data.data());
+    updateHead(head, _vec);
+    Voxel *voxel = reinterpret_cast<Voxel*>(m_data.data() + prevSize);
+    voxel->m_vec = _vec;
+    voxel->m_color.color = _color;
+}
+
+Vector3D ShapeData::getMinimum() const
+{
+    const Head *head = reinterpret_cast<const Head*>(m_data.data());
+    return head->m_minimum;
+}
+
+Vector3D ShapeData::getMaximum() const
+{
+    const Head *head = reinterpret_cast<const Head*>(m_data.data());
+    return head->m_maximum;
+}
+
+void updateHead(Head *_head, const Vector3D& _vec)
+{
+    if(_vec.m_x > _head->m_maximum.m_x)
+        _head->m_maximum.m_x = _vec.m_x;
+    if(_vec.m_y > _head->m_maximum.m_y)
+        _head->m_maximum.m_y = _vec.m_y;
+    if(_vec.m_z > _head->m_maximum.m_z)
+        _head->m_maximum.m_z = _vec.m_z;
+    
+    if(_vec.m_x < _head->m_minimum.m_x)
+        _head->m_minimum.m_x = _vec.m_x;
+    if(_vec.m_y < _head->m_minimum.m_y)
+        _head->m_minimum.m_y = _vec.m_y;
+    if(_vec.m_z < _head->m_minimum.m_z)
+        _head->m_minimum.m_z = _vec.m_z;
+
+    updateOrigin(_head);
+    updateSpatialSize(_head);
+}
+
+void updateOrigin(Head *_head)
+{
+    _head->m_origin = (_head->m_minimum + _head->m_maximum) / 2.0;
+}
+
+void updateSpatialSize(Head *_head)
+{
+    _head->m_spatialSize = _head->m_maximum - _head->m_minimum;
 }

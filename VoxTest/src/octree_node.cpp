@@ -3,21 +3,19 @@
 #include "octree.h"
 #include "octree_utils.h"
 
-OctreeNode::OctreeNode(float width, float height, float depth, uint32_t h, Octree *root)
+OctreeNode::OctreeNode(const Vector3D& _origin, const Vector3D& _spatial_size, uint32_t _h, Octree *_root)
 {
-    x_middle = width / 2;
-    y_middle = height / 2;
-    z_middle = depth / 2;
-    m_h = h;
+    m_origin = _origin;
+    m_spatial_size = _spatial_size;
+
+    m_h = _h;
     if(m_h)
         is_leaf = false;
     else
         is_leaf = true;
     for( int i = 0; i < 8; i++ )
         node[i] = nullptr;
-    m_root = root;
-
-    std::cout << __FUNCTION__ << " x_middle: " << x_middle << " y_middle: " << y_middle << " z_middle: " << z_middle << std::endl;
+    m_root = _root;
 }
 
 
@@ -25,55 +23,7 @@ void OctreeNode::addVoxel(const Vector3D& point, const uint32_t color)
 {
     int i;
     Vector3D vec = point;
-    if(vec.m_x < x_middle)
-    {
-        if(vec.m_y < y_middle)
-        {
-            if(vec.m_z < z_middle)
-                i = 0;
-            else
-            {
-                i = 4;
-                vec.m_z -= z_middle;
-            }
-        }
-        else
-        {
-            vec.m_y -= y_middle;
-            if(vec.m_z < z_middle)
-                i = 2;
-            else
-            {
-                i = 6;
-                vec.m_z -= z_middle;
-            }
-        }
-    }
-    else
-    {
-        vec.m_x -= x_middle;
-        if(vec.m_y < y_middle)
-        {
-            if(vec.m_z < z_middle)
-                i = 1;
-            else
-            {
-                i = 5;
-                vec.m_z -= z_middle;
-            }
-        }
-        else
-        {
-            vec.m_y -= y_middle;
-            if(vec.m_z < z_middle)
-                i = 3;
-            else
-            {
-                i = 7;
-                vec.m_z -= z_middle;
-            }
-        }
-    }
+    GetIndexAndTransponation(m_origin, i, vec);
     
     if(is_leaf)
     {
@@ -91,7 +41,7 @@ void OctreeNode::addVoxel(const Vector3D& point, const uint32_t color)
     else
     {
         if( !node[i] )
-            node[i] = new OctreeNode(x_middle, y_middle, z_middle, m_h - 1, m_root);
+            node[i] = new OctreeNode(m_origin, m_spatial_size, m_h - 1, m_root);
         node[i]->addVoxel( vec, color );
     }
 }

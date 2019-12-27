@@ -77,21 +77,19 @@ void GLVoxel::StartRender()
     auto buf = read_data_file("box.dat");
     m_shape_data = ShapeData(buf);
     //*
-    const Vector3D& origin = m_shape_data.getOrigin();
-    uint64_t num = m_shape_data.getVoxNumber();
-    float vox_metre = m_shape_data.getVoxMetre();
-    float width = m_shape_data.getWidth();
-    float height = m_shape_data.getHeight();
-    float depth = m_shape_data.getDepth();
+    auto origin = m_shape_data.getOrigin();
+    auto num = m_shape_data.getVoxNumber();
 
-    std::cout << __FUNCTION__ << " orig.x=" << origin.m_x << " orig.y=" << origin.m_y << " orig.z=" << origin.m_z << " num of voxels=" << num <<
-                " vox_metre=" << vox_metre << " width=" << width << " height=" << height << " depth=" << depth << std::endl;
+    auto spatialSize = m_shape_data.getSpatialSize();
+
+    std::cout << __FUNCTION__ << " origin = " << origin << " num of voxels=" << num <<
+                " spatial size: " << spatialSize << std::endl;
 
     int h = OctreeUtils::getMaxDepthOctreeByData(m_shape_data);
 
     /**/
-    
-    //auto octree = OctreeUtils::createOctree(m_shape_data);
+    auto octree = OctreeUtils::createOctree(m_shape_data);
+
     m_xRot = 0.0;
     m_yRot = 0.0;
     m_R = 15;
@@ -157,10 +155,9 @@ void GLVoxel::renderFrame()
     glUseProgram(0);
     /**/
     
-    /*
-    glPointSize(2.5);
+    //*
+    glPointSize(5);
     uint64_t vox_number = m_shape_data.getVoxNumber();
-    std::cout << __FUNCTION__ << " vox_number: " << vox_number << std::endl;
     glBegin(GL_POINTS);
     for( uint64_t i = 0; i < vox_number; i++ )
     {

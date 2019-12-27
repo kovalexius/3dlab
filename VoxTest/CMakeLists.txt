@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 2.8)
 project(vox_test)
 
 if(CMAKE_COMPILER_IS_GNUCXX)
-    add_definitions( -Wall -Wl,--no-as-needed -pthread -lpthread -std=gnu++11 -DGL_GLEXT_PROTOTYPES )
+    add_definitions( -Wall -Wl,--no-as-needed -pthread -lpthread -std=gnu++11 -std=c++11 -DGL_GLEXT_PROTOTYPES )
 elseif (MSVC)
     #add_definitions( -DGL_GLEXT_PROTOTYPES -std=c++11 )
 endif()

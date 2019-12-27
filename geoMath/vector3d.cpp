@@ -1,6 +1,7 @@
 #include "vector3d.h"
 #include <cmath>
-
+#include <limits>
+#include <iomanip>
 
 double dot(const Vector3D& v1, const Vector3D& v2)		// Скалярное умножение векторов
 {
@@ -29,11 +30,11 @@ Vector3D::Vector3D()
 	m_z=0;
 }
 
-Vector3D::Vector3D(double x, double y, double z)
+Vector3D::Vector3D(double _x, double _y, double _z)
 {
-	this->m_x = m_x;
-	this->m_y = m_y;
-	this->m_z = m_z;
+	m_x = _x;
+	m_y = _y;
+	m_z = _z;
 }
 
 Vector3D::Vector3D(const Vector3D& other)
@@ -118,7 +119,20 @@ Vector3D Vector3D::Normalize() const
 
 std::ostream& operator<<(std::ostream& _os, const Vector3D& _vec)
 {
-	_os << "x: " << _vec.m_x << " y: " << _vec.m_y << " z: " << _vec.m_z;
+	_os << std::setprecision(std::numeric_limits<double>::digits10 + 1) << "x: " << _vec.m_x << " y: " << _vec.m_y << " z: " << _vec.m_z;
 	return _os;
+}
+
+void setMaximum(Vector3D& _vec)
+{
+	_vec.m_x = std::numeric_limits<double>::max();
+    _vec.m_y = std::numeric_limits<double>::max();
+    _vec.m_z = std::numeric_limits<double>::max();
+}
+void setMinimum(Vector3D& _vec)
+{
+	_vec.m_x = std::numeric_limits<double>::min();
+    _vec.m_y = std::numeric_limits<double>::min();
+    _vec.m_z = std::numeric_limits<double>::min();
 }
 // end of Vector3D

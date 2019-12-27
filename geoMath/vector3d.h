@@ -17,10 +17,10 @@ public:
 	Vector3D();
 
 	//! Конструктор класса, принимающий параметры: x координата, y координата и z координата
-	Vector3D(double x, double y, double z);
+	Vector3D(double _x, double _y, double _z);
 
 	//! Конструктор копирования
-	Vector3D( const Vector3D& other);
+	Vector3D(const Vector3D& other);
 
 	//! Оператор присваивания
 	Vector3D& operator = ( const Vector3D& other );
@@ -76,5 +76,8 @@ Vector3D DotScal(const Vector3D& a, double num);
 Vector3D cross(const Vector3D& v1, const Vector3D& v2);
 
 std::ostream& operator<<(std::ostream& _os, const Vector3D& _vec);
+
+void setMaximum(Vector3D& _vec);
+void setMinimum(Vector3D& _vec);
 
 #endif

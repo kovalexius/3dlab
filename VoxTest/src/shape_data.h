@@ -7,33 +7,35 @@
 #include <Geometry.h>
 #include "vox_data_level.h"
 
-namespace VXC
-{
-    const int size_of_color = sizeof(int32_t);
-    const int size_of_vec = sizeof(Vector3D);
-    const int size_of_voxel = size_of_color + size_of_vec;
-    const int size_of_head = sizeof(double) + size_of_vec + size_of_vec;
-}
+
 
 struct Head
 {
-    double  m_voxSizeDimension;
+    double      m_voxSizeDimension;
     Vector3D    m_origin;
-    Vector3D    m_spatialDimension;
+    Vector3D    m_spatialSize;
+    Vector3D    m_minimum;
+    Vector3D    m_maximum;
 };
 
 struct Voxel
 {
-    Color   m_color;
+    Color       m_color;
     Vector3D    m_vec;
 };
+
+namespace VXC
+{
+    const int size_of_color = sizeof(Color);
+    const int size_of_vec = sizeof(Vector3D);
+    const int size_of_voxel = sizeof(Voxel);
+    const int size_of_head = sizeof(Head);
+}
 
 class ShapeData
 {
 public:
     ShapeData();
-    
-    ShapeData(int _size);
     
     ShapeData(const std::vector<char>& _buf);
 
@@ -43,33 +45,36 @@ public:
     
     char* getData() const;
     
-    void setData();
-    
     uint64_t getDataSize() const;
 
     uint64_t getVoxNumber() const;
     
     Vector3D getOrigin() const;
-    void setOrigin(Vector3D& _origin);
+    void setOrigin(const Vector3D& _origin);
     
-    Vector3D getSpatialDimension() const;   // Получить габариты
-    void setSpatialDimension(const Vector3D& _spatialDimension);
+    // Габариты всей фигуры
+    Vector3D getSpatialSize() const;                           
+    void setSpatialSize(const Vector3D& _spatialDimension);
 
-    /*
-    float getWidth() const;
-    
-    float getHeight() const;
-    
-    float getDepth() const;
-    */
-
+    // Размер вокселя в пространстве
     float getVoxMetre() const;
+    void setVoxMetre(const float _voxSpatialSize);
     
     Vector3D getVoxel(const int index, uint32_t &color) const;
+    void addVoxel(const Vector3D& _vec, const uint32_t _color);
     
+    Vector3D getMinimum() const;
+    Vector3D getMaximum() const;
+
 private:
-    uint64_t m_num_vox;
+    
     std::vector<char> m_data;
 };
+
+void updateHead(Head *_head, const Vector3D& _newVec);
+
+void updateOrigin(Head *_head);
+
+void updateSpatialSize(Head *_head); 
 
 #endif

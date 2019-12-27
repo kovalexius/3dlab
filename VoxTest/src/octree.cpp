@@ -24,7 +24,7 @@ void Octree::addVoxel(const Vector3D &point, const uint32_t color)
     
     //Vector3D 
     if( !node[i] )
-        node[i] = new OctreeNode(m_origin.m_x, m_origin.m_y, m_origin.m_z, m_h - 1, this);
+        node[i] = new OctreeNode(m_origin, m_size, m_h - 1, this);
     node[i]->addVoxel(vec, color);
 }
 
