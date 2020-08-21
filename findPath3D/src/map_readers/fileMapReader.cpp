@@ -5,9 +5,13 @@
 
 using namespace std;
 
-
+#ifdef _WIN32
 void readMap( const wchar_t* filename, 
               HeightMap &cells )
+#else
+void readMap(const char* filename, 
+            HeightMap &cells)
+#endif
 {
   wstreambuf* backup = wcin.rdbuf();
   wifstream f;

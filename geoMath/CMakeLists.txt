@@ -6,4 +6,7 @@ endif()
 add_library( geomath STATIC
                 ./Geometry.cpp
                 ./Geometry.h
+                ./vector2d.cpp
+                ./vector3d.cpp
+                ./vector4d.cpp
            )

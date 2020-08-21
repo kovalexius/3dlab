@@ -50,8 +50,10 @@ int main(int argc, char *argv[])
     std::cout << " CrossPointLineAndPlane() = " << CrossPointLineAndPlane( &dst, point_plane, normal_plane, A, B ) << std::endl;
 	*/
 
+#ifdef _WIN32
 	SetConsoleCP(1251);
 	SetConsoleOutputCP(1251);
+#endif
 	setlocale(LC_ALL, "Rus");
 
     QApplication a(argc, argv);
