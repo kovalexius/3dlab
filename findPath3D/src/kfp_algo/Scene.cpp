@@ -120,8 +120,8 @@ void Scene::createMesh( const HeightMap& hmap,
                         {
 							vec[0] = const_cast<Vector3D*>( &(*v2.first) );
 							vec[1] = const_cast<Vector3D*>( &(*v4.first) );
-							vec[2] = const_cast<Vector3D*>( &(*vertexes.find( Vector3D( vec[1]->x, pntj1->m_height, vec[1]->z ) ) ) );
-							vec[3] = const_cast<Vector3D*>( &(*vertexes.find( Vector3D( vec[0]->x, pntj1->m_height, vec[0]->z ) ) ) );
+							vec[2] = const_cast<Vector3D*>( &(*vertexes.find( Vector3D( vec[1]->m_x, pntj1->m_height, vec[1]->m_z ) ) ) );
+							vec[3] = const_cast<Vector3D*>( &(*vertexes.find( Vector3D( vec[0]->m_x, pntj1->m_height, vec[0]->m_z ) ) ) );
 							//! Нормаль смотрит вниз
 							norm = normals.insert( Vector3D(0, 0, -1) );
 							shared_ptr<Poly> tri( new Poly( vec, tex, 4, &(*norm.first) ) );
@@ -131,8 +131,8 @@ void Scene::createMesh( const HeightMap& hmap,
 						{
 							vec[0] = const_cast<Vector3D*>( &(*v2.first) );
 							vec[1] = const_cast<Vector3D*>( &(*v4.first) );
-							vec[2] = const_cast<Vector3D*>( &(*vertexes.find( Vector3D( vec[1]->x, pntj1->m_height, vec[1]->z ) ) ) );
-							vec[3] = const_cast<Vector3D*>( &(*vertexes.find( Vector3D( vec[0]->x, pntj1->m_height, vec[0]->z ) ) ) );
+							vec[2] = const_cast<Vector3D*>( &(*vertexes.find( Vector3D( vec[1]->m_x, pntj1->m_height, vec[1]->m_z ) ) ) );
+							vec[3] = const_cast<Vector3D*>( &(*vertexes.find( Vector3D( vec[0]->m_x, pntj1->m_height, vec[0]->m_z ) ) ) );
 							//! Нормаль смотрит вверх
 							norm = normals.insert( Vector3D(0, 0, 1) );
 							shared_ptr<Poly> tri( new Poly( vec, tex, 4, &(*norm.first) ) );
@@ -160,8 +160,8 @@ void Scene::createMesh( const HeightMap& hmap,
 						{
 							vec[0] = const_cast<Vector3D*>( &(*v2.first) );
 							vec[1] = const_cast<Vector3D*>( &(*v6.first) );
-							vec[2] = const_cast<Vector3D*>( &(*vertexes.find( Vector3D( vec[1]->x, pnti1->m_height, vec[1]->z ) ) ) );
-							vec[3] = const_cast<Vector3D*>( &(*vertexes.find( Vector3D( vec[0]->x, pnti1->m_height, vec[0]->z ) ) ) );
+							vec[2] = const_cast<Vector3D*>( &(*vertexes.find( Vector3D( vec[1]->m_x, pnti1->m_height, vec[1]->m_z ) ) ) );
+							vec[3] = const_cast<Vector3D*>( &(*vertexes.find( Vector3D( vec[0]->m_x, pnti1->m_height, vec[0]->m_z ) ) ) );
 							//! Нормаль смотрит влево
 							norm = normals.insert( Vector3D(-1, 0, 0) );
 							shared_ptr<Poly> tri( new Poly( vec, tex, 4, &(*norm.first) ) );
@@ -171,8 +171,8 @@ void Scene::createMesh( const HeightMap& hmap,
 						{
 							vec[0] = const_cast<Vector3D*>( &(*v2.first) );
 							vec[1] = const_cast<Vector3D*>( &(*v6.first) );
-							vec[2] = const_cast<Vector3D*>( &(*vertexes.find( Vector3D( vec[1]->x, pnti1->m_height, vec[1]->z ) ) ) );
-							vec[3] = const_cast<Vector3D*>( &(*vertexes.find( Vector3D( vec[0]->x, pnti1->m_height, vec[0]->z ) ) ) );
+							vec[2] = const_cast<Vector3D*>( &(*vertexes.find( Vector3D( vec[1]->m_x, pnti1->m_height, vec[1]->m_z ) ) ) );
+							vec[3] = const_cast<Vector3D*>( &(*vertexes.find( Vector3D( vec[0]->m_x, pnti1->m_height, vec[0]->m_z ) ) ) );
 							//! Нормаль смотрит вправо
 							norm = normals.insert( Vector3D( 1, 0, 0 ) );
 							shared_ptr<Poly> tri( new Poly( vec, tex, 4, &(*norm.first) ) );
@@ -389,8 +389,8 @@ bool Scene::FindPathDijkstra( list<Vector3D> &result, const Vector3D& src, const
 bool Scene::FindPath( list<Vector3D> &result, const Vector3D& source, const Vector3D& dest )
 {
 	Vector3D src = source, dst = dest;
-	src.y = m_level;
-	dst.y = m_level;
+	src.m_y = m_level;
+	dst.m_y = m_level;
 
 	
 

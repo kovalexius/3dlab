@@ -126,29 +126,29 @@ void GLMapView::initObjectsVBO()
 			auto curPoly = (*itTri).get();
 			for( size_t i = 1; i < curPoly->v.size() - 1; i++ )
 			{
-				norms.push_back( curPoly->normal->x );
-				norms.push_back( curPoly->normal->y );
-				norms.push_back( curPoly->normal->z );
+				norms.push_back( curPoly->normal->m_x );
+				norms.push_back( curPoly->normal->m_y );
+				norms.push_back( curPoly->normal->m_z );
 
-				norms.push_back( curPoly->normal->x );
-				norms.push_back( curPoly->normal->y );
-				norms.push_back( curPoly->normal->z );
+				norms.push_back( curPoly->normal->m_x );
+				norms.push_back( curPoly->normal->m_y );
+				norms.push_back( curPoly->normal->m_z );
 
-				norms.push_back( curPoly->normal->x );
-				norms.push_back( curPoly->normal->y );
-				norms.push_back( curPoly->normal->z );
+				norms.push_back( curPoly->normal->m_x );
+				norms.push_back( curPoly->normal->m_y );
+				norms.push_back( curPoly->normal->m_z );
 
-				verts.push_back( curPoly->v[0]->x );
-				verts.push_back( curPoly->v[0]->y );
-				verts.push_back( curPoly->v[0]->z );
+				verts.push_back( curPoly->v[0]->m_x );
+				verts.push_back( curPoly->v[0]->m_y );
+				verts.push_back( curPoly->v[0]->m_z );
 
-				verts.push_back( curPoly->v[i]->x );
-				verts.push_back( curPoly->v[i]->y );
-				verts.push_back( curPoly->v[i]->z );
+				verts.push_back( curPoly->v[i]->m_x );
+				verts.push_back( curPoly->v[i]->m_y );
+				verts.push_back( curPoly->v[i]->m_z );
 
-				verts.push_back( curPoly->v[i+1]->x );
-				verts.push_back( curPoly->v[i+1]->y );
-				verts.push_back( curPoly->v[i+1]->z );
+				verts.push_back( curPoly->v[i+1]->m_x );
+				verts.push_back( curPoly->v[i+1]->m_y );
+				verts.push_back( curPoly->v[i+1]->m_z );
 
 				uvs.push_back( curPoly->tex[0].x);
 				uvs.push_back( curPoly->tex[0].y);
@@ -220,29 +220,29 @@ void GLMapView::initWaterVBO()
 		auto curPoly = (*itTri).get();
         for( size_t i = 1; i < curPoly->v.size() - 1; i++ )
 		{
-			norms.push_back( curPoly->normal->x );
-			norms.push_back( curPoly->normal->y );
-			norms.push_back( curPoly->normal->z );
+			norms.push_back( curPoly->normal->m_x );
+			norms.push_back( curPoly->normal->m_y );
+			norms.push_back( curPoly->normal->m_z );
 
-			norms.push_back( curPoly->normal->x );
-			norms.push_back( curPoly->normal->y );
-			norms.push_back( curPoly->normal->z );
+			norms.push_back( curPoly->normal->m_x );
+			norms.push_back( curPoly->normal->m_y );
+			norms.push_back( curPoly->normal->m_z );
 
-			norms.push_back( curPoly->normal->x );
-			norms.push_back( curPoly->normal->y );
-			norms.push_back( curPoly->normal->z );
+			norms.push_back( curPoly->normal->m_x );
+			norms.push_back( curPoly->normal->m_y );
+			norms.push_back( curPoly->normal->m_z );
 
-			verts.push_back( curPoly->v[0]->x );
-			verts.push_back( curPoly->v[0]->y );
-			verts.push_back( curPoly->v[0]->z );
+			verts.push_back( curPoly->v[0]->m_x );
+			verts.push_back( curPoly->v[0]->m_y );
+			verts.push_back( curPoly->v[0]->m_z );
 
-			verts.push_back( curPoly->v[i]->x );
-			verts.push_back( curPoly->v[i]->y );
-			verts.push_back( curPoly->v[i]->z );
+			verts.push_back( curPoly->v[i]->m_x );
+			verts.push_back( curPoly->v[i]->m_y );
+			verts.push_back( curPoly->v[i]->m_z );
 
-			verts.push_back( curPoly->v[i+1]->x );
-			verts.push_back( curPoly->v[i+1]->y );
-			verts.push_back( curPoly->v[i+1]->z );
+			verts.push_back( curPoly->v[i+1]->m_x );
+			verts.push_back( curPoly->v[i+1]->m_y );
+			verts.push_back( curPoly->v[i+1]->m_z );
 
 			uvs.push_back( curPoly->tex[0].x);
 			uvs.push_back( curPoly->tex[0].y);
@@ -322,18 +322,18 @@ void GLMapView::renderFrame()
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 
-	GLfloat lightPos0[4] = { (GLfloat)m_pCamera.x, (GLfloat)m_pCamera.y, (GLfloat)m_pCamera.z, 1.0 };
+	GLfloat lightPos0[4] = { (GLfloat)m_pCamera.m_x, (GLfloat)m_pCamera.m_y, (GLfloat)m_pCamera.m_z, 1.0 };
 	Vector3D dir = m_tCamera - m_pCamera;
-	GLfloat lightDir0[3]={ (GLfloat)dir.x, (GLfloat)dir.y, (GLfloat)dir.z };
+	GLfloat lightDir0[3]={ (GLfloat)dir.m_x, (GLfloat)dir.m_y, (GLfloat)dir.m_z };
 	glLightfv(GL_LIGHT0, GL_POSITION, lightPos0);				//
 	glLightfv(GL_LIGHT0, GL_SPOT_DIRECTION,lightDir0);	//
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
-	gluLookAt(m_pCamera.x, m_pCamera.y, m_pCamera.z, 
-				m_tCamera.x, m_tCamera.y, m_tCamera.z, 
-				m_upCamera.x, m_upCamera.y, m_upCamera.z);	// Установка камеры
+	gluLookAt(m_pCamera.m_x, m_pCamera.m_y, m_pCamera.m_z, 
+				m_tCamera.m_x, m_tCamera.m_y, m_tCamera.m_z, 
+				m_upCamera.m_x, m_upCamera.m_y, m_upCamera.m_z);	// Установка камеры
 	glGetDoublev( GL_MODELVIEW_MATRIX, vMatrix.getPtr() ); 
 	doOpacityRender();
 
@@ -446,7 +446,7 @@ void GLMapView::mousePressEvent( QMouseEvent *event )
 		Vector3D dst;
 		shared_ptr<Poly> face;
 		if (waterObstacle->FullIntersectRay(dst, face, m_pCamera, P1))
-			beginP.setPosition( Vector3D( dst.x, dst.y, dst.z ) );
+			beginP.setPosition( Vector3D( dst.m_x, dst.m_y, dst.m_z ) );
 		else
 			beginP.removePoint();
 	}
@@ -462,7 +462,7 @@ void GLMapView::mousePressEvent( QMouseEvent *event )
 		Vector3D dst;
 		shared_ptr<Poly> face;
 		if (waterObstacle->FullIntersectRay(dst, face, m_pCamera, P1))
-			endP.setPosition( Vector3D( dst.x, dst.y, dst.z ) );
+			endP.setPosition( Vector3D( dst.m_x, dst.m_y, dst.m_z ) );
 		else
 			endP.removePoint();
 	}
@@ -540,10 +540,10 @@ void GLMapView::drawObstacles()
 			for( size_t i = 1; i < curPoly->v.size() - 1; i++ )
 			{
 				glBegin( GL_POLYGON );
-				glNormal3f( curPoly->normal->x, curPoly->normal->y, curPoly->normal->z );
-				glVertex3f(	curPoly->v[0]->x, curPoly->v[0]->y, curPoly->v[0]->z );
-				glVertex3f(	curPoly->v[i]->x, curPoly->v[i]->y, curPoly->v[i]->z );
-				glVertex3f(	curPoly->v[i+1]->x, curPoly->v[i+1]->y, curPoly->v[i+1]->z );
+				glNormal3f( curPoly->normal->m_x, curPoly->normal->m_y, curPoly->normal->m_z );
+				glVertex3f(	curPoly->v[i]->m_x, curPoly->v[i]->m_y, curPoly->v[i]->m_z );
+				glVertex3f(	curPoly->v[0]->m_x, curPoly->v[0]->m_y, curPoly->v[0]->m_z );
+				glVertex3f(	curPoly->v[i+1]->m_x, curPoly->v[i+1]->m_y, curPoly->v[i+1]->m_z );
 				glEnd();
 			}
 		}
@@ -570,8 +570,8 @@ void GLMapView::drawObstaclesEdgesAndTri()
 				glLineWidth( 4.0 );
 				glBegin( GL_LINE_STRIP );
 				glColor3f( colorEdge[0], colorEdge[1], colorEdge[2] );
-				glVertex3f( edg->v1->x, edg->v1->y, edg->v1->z );
-				glVertex3f( edg->v2->x, edg->v2->y, edg->v2->z );
+				glVertex3f( edg->v1->m_x, edg->v1->m_y, edg->v1->m_z );
+				glVertex3f( edg->v2->m_x, edg->v2->m_y, edg->v2->m_z );
 				glEnd();
 				colorEdge[1] -= 0.3;
 				if( colorEdge[1] < 0.2 )
@@ -587,10 +587,10 @@ void GLMapView::drawObstaclesEdgesAndTri()
                                         for( size_t i = 1; i < curPoly->v.size() - 1; i++ )
 					{
 						glBegin( GL_POLYGON );
-						glNormal3f( curPoly->normal->x, curPoly->normal->y, curPoly->normal->z );
-						glVertex3f(	curPoly->v[0]->x, curPoly->v[0]->y, curPoly->v[0]->z );
-						glVertex3f(	curPoly->v[i]->x, curPoly->v[i]->y, curPoly->v[i]->z );
-						glVertex3f(	curPoly->v[i+1]->x, curPoly->v[i+1]->y, curPoly->v[i+1]->z );
+						glNormal3f( curPoly->normal->m_x, curPoly->normal->m_y, curPoly->normal->m_z );
+						glVertex3f(	curPoly->v[0]->m_x, curPoly->v[0]->m_y, curPoly->v[0]->m_z );
+						glVertex3f(	curPoly->v[i]->m_x, curPoly->v[i]->m_y, curPoly->v[i]->m_z );
+						glVertex3f(	curPoly->v[i+1]->m_x, curPoly->v[i+1]->m_y, curPoly->v[i+1]->m_z );
 						glEnd();
 					}
 					colorTri[0] -= 0.3;
@@ -656,7 +656,7 @@ void GLMapView::drawCheckPoints()
 		glBegin(GL_POINTS);
 			glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, beginP.color);
 			glColor3f( beginP.color[0], beginP.color[1], beginP.color[2] );
-			glVertex3f( beginP.position.x, beginP.position.y, beginP.position.z );
+			glVertex3f( beginP.position.m_x, beginP.position.m_y, beginP.position.m_z );
 		glEnd();
 	}
 	if( endP.isExist )
@@ -665,7 +665,7 @@ void GLMapView::drawCheckPoints()
 		glBegin(GL_POINTS);
 			glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, endP.color);
 			glColor3f( endP.color[0], endP.color[1], endP.color[2] );
-			glVertex3f( endP.position.x, endP.position.y, endP.position.z );
+			glVertex3f( endP.position.m_x, endP.position.m_y, endP.position.m_z );
 		glEnd();
 	}
 	glEnable(GL_LIGHTING);		// Свет
@@ -685,7 +685,7 @@ void GLMapView::drawPath()
 	glBegin( GL_LINE_STRIP );
 	for( auto it = checkPoints.begin(); it != checkPoints.end(); it++ )
 	{
-		glVertex3f( it->x, it->y, it->z );
+		glVertex3f( it->m_x, it->m_y, it->m_z );
 	}
 	glEnd();
 
@@ -697,7 +697,7 @@ void GLMapView::drawPath()
 	glBegin(GL_POINTS);
 	for( auto it = checkPoints.begin(); it != checkPoints.end(); it++ )
 	{
-		glVertex3f( it->x, it->y, it->z );
+		glVertex3f( it->m_x, it->m_y, it->m_z );
 	}
 	glEnd();
 
@@ -725,18 +725,18 @@ void GLMapView::doOpacityRender()
 
 void GLMapView::GetXYZ(void)
 {
-	m_pos.y=sin(yRot)*R;
-	m_pos.z=cos(xRot)*cos(yRot)*R;
-	m_pos.x=sin(xRot)*cos(yRot)*R;
+	m_pos.m_y=sin(yRot)*R;
+	m_pos.m_z=cos(xRot)*cos(yRot)*R;
+	m_pos.m_x=sin(xRot)*cos(yRot)*R;
 
-	m_up.y=cos(-yRot);
-	m_up.x=sin(xRot)*sin(-yRot);
-	m_up.z=cos(-xRot)*sin(-yRot);
+	m_up.m_y=cos(-yRot);
+	m_up.m_x=sin(xRot)*sin(-yRot);
+	m_up.m_z=cos(-xRot)*sin(-yRot);
 }
 
 void GLMapView::GetDXYZ(void)
 {
-	m_shift.x+=cos(xRot)*xMov+sin(xRot)*sin(-yRot)*yMov;
-	m_shift.z+=sin(-xRot)*xMov+sin(-yRot)*cos(xRot)*yMov;
-	m_shift.y+=cos(yRot)*yMov;
+	m_shift.m_x+=cos(xRot)*xMov+sin(xRot)*sin(-yRot)*yMov;
+	m_shift.m_z+=sin(-xRot)*xMov+sin(-yRot)*cos(xRot)*yMov;
+	m_shift.m_y+=cos(yRot)*yMov;
 }
