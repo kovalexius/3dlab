@@ -55,6 +55,10 @@ int main(int argc, char *argv[])
 	setlocale(LC_ALL, "Rus");
 
     QApplication a(argc, argv);
+
+	QDialog dlg;
+	dlg.exec();
+
     findPath3D w;
     w.show();
     return a.exec();
