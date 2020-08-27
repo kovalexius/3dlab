@@ -77,6 +77,7 @@ include_directories(
 
 add_executable( find3d
                 ./src/main.cpp
+				./src/my_dialog.cpp
                 ${GLRENDERER}
                 ${GL}
                 ${KFP}

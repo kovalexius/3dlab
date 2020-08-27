@@ -106,8 +106,9 @@ int testXLib(int argc, char **argv)
 
 #else
 
-void testXLib()
+int testXLib(int argc, char **argv)
 {
+	return 0;
 }
 
 #endif

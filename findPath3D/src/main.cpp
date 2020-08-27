@@ -4,6 +4,8 @@
 #include "widgets/findpath3d.h"
 #include <Geometry.h>
 
+#include "my_dialog.h"
+
 class AA
 {
 public:
@@ -58,8 +60,11 @@ int main(int argc, char *argv[])
 
     QApplication a(argc, argv);
 
-	QDialog dlg;
+	MyDialog dlg;
 	dlg.exec();
+
+	int result = dlg.result();
+	std::cout << "result: " << result << std::endl;
 
     findPath3D w;
     w.show();
