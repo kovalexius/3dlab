@@ -6,7 +6,7 @@
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>
 
-void testXLib()
+int testXLib(int argc, char **argv)
 {
 	Display *ourDisplay;
 	int ourScreen;
@@ -25,46 +25,46 @@ void testXLib()
 	ourDisplay = XOpenDisplay(NULL);
 	if (ourDisplay == NULL)
 	{
-		printf("Не удалось установить соединение с графическим терминалом.\n");
+		printf("пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ.\n");
 		return 1;
 	};
 
-	/* Получим предварительные сведения */
-	ourScreen = DefaultScreen(ourDisplay);           /* Экран по-умолчанию        */
-	rootWindow = RootWindow(ourDisplay, ourScreen);  /* Корневое окно             */
-	bgcolor = WhitePixel(ourDisplay, ourScreen);     /* Белый цвет экрана         */
-	myDepth = DefaultDepth(ourDisplay, ourScreen);   /* Глубина цветности экрана  */
-	myVisual = DefaultVisual(ourDisplay, ourScreen); /* Визуальные характеристики */
+	/* пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ */
+	ourScreen = DefaultScreen(ourDisplay);           /* пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ-пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ        */
+	rootWindow = RootWindow(ourDisplay, ourScreen);  /* пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ             */
+	bgcolor = WhitePixel(ourDisplay, ourScreen);     /* пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ         */
+	myDepth = DefaultDepth(ourDisplay, ourScreen);   /* пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ  */
+	myVisual = DefaultVisual(ourDisplay, ourScreen); /* пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ */
 
-	/* Заполняем атрибуты окна */
+	/* пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ */
 	myAttr.background_pixel = bgcolor;
 
-	/* Создаем окно */
+	/* пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ */
 	myWindow = XCreateWindow(ourDisplay, rootWindow, 100, 100, 320, 200,
 		0, myDepth, InputOutput, myVisual, CWBackPixel, &myAttr);
 
-	/* Устанавливаем заголовок окна */
+	/* пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ */
 	XStoreName(ourDisplay, myWindow, "Example window");
 
-	/* Устанавливаем заголовок иконки */
+	/* пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ */
 	XSetIconName(ourDisplay, myWindow, "example");
 
-	/* Устанавливаем ограничения на размеры окна */
+	/* пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ */
 	mySizeHints.flags = PMinSize | PMaxSize | PResizeInc;
 	mySizeHints.min_width = 192; mySizeHints.min_height = 128;
 	mySizeHints.max_width = 640; mySizeHints.max_height = 480;
 	mySizeHints.width_inc = 10; mySizeHints.height_inc = 10;
 	XSetWMNormalHints(ourDisplay, myWindow, &mySizeHints);
 
-	/* Устанавливаем атрибут командной строки */
+	/* пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ */
 	XSetCommand(ourDisplay, myWindow, argv, argc);
 
-	/* Устанавливаем атрибут класса */
+	/* пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ */
 	myClassHint.res_name = myResName;
 	myClassHint.res_class = myClassName;
 	XSetClassHint(ourDisplay, myWindow, &myClassHint);
 
-	/* Создаём дочерние окна */
+	/* пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ */
 	myAttr.background_pixel = BlackPixel(ourDisplay, ourScreen);
 	childWindow = XCreateWindow(ourDisplay, myWindow, 10, 10, 40, 30,
 		0, myDepth, InputOutput, myVisual, CWBackPixel, &myAttr);
@@ -85,20 +85,20 @@ void testXLib()
 	childWindow = XCreateWindow(ourDisplay, myWindow, 140, 85, 40, 30,
 		0, myDepth, InputOutput, myVisual, CWBackPixel | CWWinGravity, &myAttr);
 
-	/* Делаем окна видимыми */
+	/* пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ */
 	XMapWindow(ourDisplay, myWindow);
 	XMapSubwindows(ourDisplay, myWindow);
 
-	/* Все сформированные команды принудительно сбрасываем на сервер */
+	/* пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ */
 	XFlush(ourDisplay);
 
-	/* Спим 50 секунд */
+	/* пїЅпїЅпїЅпїЅ 50 пїЅпїЅпїЅпїЅпїЅпїЅ */
 	sleep(10);
 
-	/* Уничтожаем окно */
+	/* пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ */
 	XDestroyWindow(ourDisplay, myWindow);
 
-	/* Закрываем соединение с сервером */
+	/* пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ */
 	XCloseDisplay(ourDisplay);
 
 	return 0;

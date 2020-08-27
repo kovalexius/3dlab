@@ -2,6 +2,6 @@
 
 int main(int argc, char **argv)
 {
-	testXLib();
+	return testXLib(argc, argv);
 };
 
