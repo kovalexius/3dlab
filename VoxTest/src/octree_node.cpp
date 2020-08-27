@@ -47,7 +47,7 @@ void OctreeNode::addVoxel(const Vector3D& point, const uint32_t color)
 }
 
 
-void OctreeNode::createVoxDataArray(std::vector<VoxDataLevelBase*>& _vox_data, uint level)
+void OctreeNode::createVoxDataArray(std::vector<VoxDataLevelBase*>& _vox_data, int level)
 {
     if(_vox_data.size() < level + 1)
     {

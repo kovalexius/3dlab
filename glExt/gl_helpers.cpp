@@ -1,7 +1,7 @@
 ﻿#include "gl_helpers.h"
 
 #include <iostream>
-#include <glExtInit.h>
+
 
 void checkOpenGLerror()
 {

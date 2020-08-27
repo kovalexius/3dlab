@@ -1,6 +1,8 @@
 #ifndef __VOX_DATA_LEVEL__H
 #define __VOX_DATA_LEVEL__H
 
+#include <cstdint>
+
 #pragma pack(push, 1)
 union Color
 {

@@ -68,8 +68,8 @@ QT4_WRAP_UI( UI_SOURCES
                 
 include_directories( 
                 ./src/gl_renderer/
-                ${CMAKE_SOURCE_DIR}/glExt/
-                ${CMAKE_SOURCE_DIR}/geoMath/
+                ${CMAKE_CURRENT_SOURCE_DIR}/../glExt/
+                ${CMAKE_CURRENT_SOURCE_DIR}/../geoMath/
                 ./src/kfp_algo/
                 ./src/widgets/
 				./src/map_readers

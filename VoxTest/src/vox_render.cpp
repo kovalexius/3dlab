@@ -1,7 +1,9 @@
 #include "vox_render.h"
 
-#include <cmath>
-
+#ifdef _WIN32
+#define _USE_MATH_DEFINES 
+#endif
+#include <math.h>
 
 
 void testRender()

@@ -4,7 +4,9 @@
 #include <string>
 
 //#include <Windows.h>
-#include "GL/glu.h"
+//#include <GL/gl.h>
+//#include "GL/glext.h"
+#include <glExtInit.h>
 
 
 void checkOpenGLerror();

@@ -11,7 +11,7 @@ class OctreeNode
     public:
         OctreeNode(const Vector3D& _origin, const Vector3D& _size, uint32_t h, Octree *root);
         void addVoxel(const Vector3D& _point, const uint32_t color);
-        void createVoxDataArray(std::vector<VoxDataLevelBase*> &vox_data, uint level);
+        void createVoxDataArray(std::vector<VoxDataLevelBase*> &vox_data, int level);
         
     private:
         Vector3D    m_origin;   // Центр узла

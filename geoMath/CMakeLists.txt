@@ -4,6 +4,8 @@ elseif (MSVC)
 endif()
 
 add_library( geomath STATIC
-                ./Geometry.cpp
-                ./Geometry.h
+                ${CMAKE_CURRENT_SOURCE_DIR}/Geometry.cpp
+				${CMAKE_CURRENT_SOURCE_DIR}/vector2d.cpp
+				${CMAKE_CURRENT_SOURCE_DIR}/vector3d.cpp
+				${CMAKE_CURRENT_SOURCE_DIR}/vector4d.cpp
            )
